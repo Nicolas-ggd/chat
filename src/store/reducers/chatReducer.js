@@ -1,6 +1,7 @@
 const initialState = {
     roomMode: '',
-    roomId: ''
+    roomId: '',
+    chatMessages: []
 };
 
 export const chatReducer = (state = initialState, action) => {
@@ -11,10 +12,17 @@ export const chatReducer = (state = initialState, action) => {
         }
     }
 
-    if(action.type === "ROOM_ID") {
+    if (action.type === "ROOM_ID") {
         return {
             ...state,
             roomId: action.roomId
+        }
+    }
+
+    if (action.type === "CHAT_MESSAGE") {
+        return {
+            ...state,
+            chatMessages: action.chatMessages
         }
     }
 

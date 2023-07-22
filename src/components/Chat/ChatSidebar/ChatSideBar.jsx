@@ -28,12 +28,13 @@ export const ChatSideBar = () => {
       className="flex flex-col border-r-2 overflow-y-auto"
       style={{ width: "500px" }}
     >
+      <div className="w-full flex justify-start"><h1 className="px-3 py-2 font-sans text-2xl font-bold" >Chats</h1></div>
       <div className="border-b-2 py-4 px-2 relative flex items-center">
-        <SearchIcon className="absolute h-full ml-2 mr-1 text-gray-600" />
+        <SearchIcon className="absolute h-full ml-2 mხ-2 text-gray-600" />
         <input
           type="text"
           placeholder="search chatting"
-          className="py-2 px-6 ml-1 border-2 border-gray-200 rounded-2xl w-full"
+          className="py-2 px-8 border-2 border-gray-200 rounded-3xl w-full"
         />
       </div>
       <div className="h-full flex flex-col justify-between">
