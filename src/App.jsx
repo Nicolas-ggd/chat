@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import { Auth } from "./Auth/Auth";
-import { Page404 } from "./404Page/404";
+import { Auth } from "./components/Auth/Auth";
+import { Page404 } from "./components/404Page/404";
 import { PrivateRoutes } from "./utils/PrivateRoutes";
-import { ForgotPassword } from "./Auth/ForgotPassword/ForgotPassword";
+import { ForgotPassword } from "./components/Auth/ForgotPassword/ForgotPassword";
 
 function App() {
 

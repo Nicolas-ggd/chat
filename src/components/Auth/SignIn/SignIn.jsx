@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
-import { socket } from "../../api/socket";
+import { socket } from "../../../api/socket";
 
 export const SignIn = ({ closeSignIn }) => {
     const navigate = useNavigate();
