@@ -18,6 +18,7 @@ export const ChatSideBar = () => {
       .then(() => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("userId");
+        localStorage.removeItem("roomMode");
         navigate("/");
       });
   };

@@ -9,6 +9,8 @@ import { ChatHeader } from "../ChatHeader/ChatHeader";
 
 export const ChatBox = () => {
   const [isTyping, setIsTyping] = useState("");
+  const userId = localStorage.getItem("userId");
+  const roomType = localStorage.getItem("roomMode");
 
   const handleTyping = (e) => {
     setIsTyping(e.target.value);
@@ -16,6 +18,21 @@ export const ChatBox = () => {
 
   const sendMessage = async (e) => {
     e.preventDefault();
+
+    await axios.post("http://localhost:8000/chat/create-conversation", {
+      data: {
+        participants: [id, userId],
+        message: {
+          sender: userId,
+          recipient: id,
+          content: isTyping
+        }
+      }
+    })
+    .then((res) => {
+      const data = res.data;
+      console.log(data, 'message');
+    })
 
     setIsTyping("");
   };
