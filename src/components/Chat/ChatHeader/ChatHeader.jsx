@@ -1,10 +1,18 @@
 import SearchIcon from "@mui/icons-material/Search";
+import ForumIcon from "@mui/icons-material/Forum";
 
 export const ChatHeader = () => {
   return (
     <div className="px-5 py-5 flex justify-between items-center bg-white border-b-2">
-      <div className="font-semibold text-2xl">GoingChat</div>
-      <div className="w-1/2 relative flex items-center">
+      <div className="w-1/2 flex items-center">
+        <ForumIcon
+          style={{ color: "#a507b8", fontSize: "30px" }}
+          fontSize="large"
+          className="animate-pulse animate-infinite animate-ease-out"
+        />
+        <div className="font-semibold text-2xl px-3">Quick Chat</div>
+      </div>
+      <div className="w-1/2 relative flex items-center px-2">
         <SearchIcon className="absolute ml-2 text-gray-600" />
         <input
           type="text"
