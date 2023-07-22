@@ -9,8 +9,6 @@ import { ChatCorner } from "./ChatCorner/ChatCorner";
 import ForumIcon from "@mui/icons-material/Forum";
 export const Chat = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const userId = localStorage.getItem("userId");
-  console.log(userId)
   const { id } = useParams();
 
   setTimeout(() => setIsLoading(false), 3000);

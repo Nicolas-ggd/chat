@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
@@ -17,6 +18,7 @@ export const SignIn = ({ closeSignIn }) => {
   });
   const [searchVerifyCode] = useSearchParams();
   const searchParamsCode = searchVerifyCode.get("verifyCode");
+  const dispatch = useDispatch();
 
   const toggleForgotPassword = () => {
     setIsForgot((prevIsForgot) => !prevIsForgot);
@@ -36,15 +38,15 @@ export const SignIn = ({ closeSignIn }) => {
       })
       .then((res) => {
         const data = res.data;
-        console.log(data);
         localStorage.setItem("access_token", data?.access_token);
         localStorage.setItem("userId", data?._id);
-        // socket.emit("userConnected", {
-        //     name: data?.name,
-        //     email: data?.email,
-        //     _id: data?._id
-        // });
         navigate("/room");
+        dispatch({
+          type: "USER_DATA",
+          userId: data?._id,
+          name: data?.name,
+          email: data?.email
+        })
       })
       .catch((res) => {
         const error = res?.response?.data?.message;

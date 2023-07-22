@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 import { socket } from "../../../api/socket";
@@ -9,14 +10,19 @@ import { ChatHeader } from "../ChatHeader/ChatHeader";
 
 export const ChatBox = () => {
   const [isTyping, setIsTyping] = useState("");
-  const userId = localStorage.getItem("userId");
-  const roomType = localStorage.getItem("roomMode");
-
+  const userId = useSelector((state) => state.user.userId)
+  const roomId = useSelector((state) => state.chat.roomId);
+  const roomMode = useSelector((state) => state.chat.roomMode);
+  
   const handleTyping = (e) => {
     setIsTyping(e.target.value);
   };
 
   const sendMessage = async (e) => {
+    if(roomType !== "private") {
+      return
+    }
+    
     e.preventDefault();
 
     await axios.post("http://localhost:8000/chat/create-conversation", {
