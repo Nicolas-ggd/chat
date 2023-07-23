@@ -40,7 +40,7 @@ export const SignIn = ({ closeSignIn }) => {
         const data = res.data;
         localStorage.setItem("access_token", data?.access_token);
         localStorage.setItem("userId", data?._id);
-        navigate("/room");
+        navigate("/chat");
         dispatch({
           type: "USER_DATA",
           userId: data?._id,

@@ -5,7 +5,6 @@ import { Page404 } from "./components/404Page/404";
 import { PrivateRoutes } from "./utils/PrivateRoutes";
 import { ForgotPassword } from "./components/Auth/ForgotPassword/ForgotPassword";
 import { Chat } from "./components/Chat/Chat";
-import { RoomModal } from "./components/Chat/RoomModal/RoomModal";
 
 function App() {
   return (
@@ -13,7 +12,6 @@ function App() {
       <Routes>
         <Route element={<PrivateRoutes />}>
           <Route exact path="/chat" element={<Chat />} />
-          <Route exact path="/room" element={<RoomModal />} />
         </Route>
         <Route exact path="/" element={<Auth />} />
         <Route
