@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import axios from "axios";
 
@@ -10,8 +11,9 @@ import AddIcon from "@mui/icons-material/Add";
 
 export const ChatSideBar = () => {
   const [inviteToggle, setInviteToggle] = useState(false);
-  const userId = localStorage.getItem("userId");
+  const userId = useSelector((state) => state.user.userId);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const toggleInviteModal = () => {
     setInviteToggle((prevData) => !prevData);
@@ -24,8 +26,13 @@ export const ChatSideBar = () => {
       })
       .then(() => {
         localStorage.removeItem("access_token");
-        localStorage.removeItem("userId");
         localStorage.removeItem("roomMode");
+        dispatch({
+          type: "USER_DATA",
+          userId: '',
+          name: '',
+          email: ''
+        })
         navigate("/");
       });
   };

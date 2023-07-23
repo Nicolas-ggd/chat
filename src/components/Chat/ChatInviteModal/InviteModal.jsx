@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { socket } from "../../../api/socket";
 
 export const InviteModal = ({ toggleModal }) => {
   const [isType, setIsType] = useState("");
   const [isError, setIsError] = useState(false);
+  const userData = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -22,12 +23,21 @@ export const InviteModal = ({ toggleModal }) => {
     }
 
     toggleModal();
+
     const linkParts = isType.split("/");
     const roomId = linkParts[linkParts.length - 1];
-    socket.emit("createRoom", roomId);
+
+    socket.emit("createRoom", {
+      roomId,
+      userData,
+    });
+
     navigate(`/chat/${roomId}`);
     dispatch("ROOM_ID", roomId);
-    return roomId
+    dispatch("ROOM_TYPE", {
+      roomMode: "public",
+    });
+    return roomId;
   };
 
   return (

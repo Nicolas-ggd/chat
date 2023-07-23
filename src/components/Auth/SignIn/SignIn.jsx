@@ -39,7 +39,6 @@ export const SignIn = ({ closeSignIn }) => {
       .then((res) => {
         const data = res.data;
         localStorage.setItem("access_token", data?.access_token);
-        localStorage.setItem("userId", data?._id);
         navigate("/chat");
         dispatch({
           type: "USER_DATA",

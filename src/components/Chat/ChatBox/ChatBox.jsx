@@ -14,11 +14,10 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 export const ChatBox = () => {
   const [isTyping, setIsTyping] = useState("");
   const [toggleRoom, setToggleRoom] = useState(false);
-  const userId = useSelector((state) => state.user.userId);
-  const roomId = useSelector((state) => state.chat.roomId);
+  const userData = useSelector((state) => state.user);
+  const roomMode = useSelector((state) => state.chat.roomMode);
   const selectedChat = useSelector((state) => state.chat.selectedChat);
-  const userName = useSelector((state) => state.user.name);
-
+  console.log(roomMode)
   const handleTyping = (e) => {
     setIsTyping(e.target.value);
   };
@@ -33,14 +32,14 @@ export const ChatBox = () => {
     console.log(isTyping);
     await axios
       .post("http://localhost:8000/chat/create-conversation", {
-        data: {
-          participants: [roomId, userId],
-          message: {
-            sender: userId,
-            recipient: roomId,
-            content: isTyping,
-          },
+        participants: [userData?.userId],
+        messages: {
+          sender: userData?.userId,
+          content: isTyping,
         },
+        isPublic: {
+          isPublic: true
+        }
       })
       .then((res) => {
         const data = res.data;
@@ -120,7 +119,7 @@ export const ChatBox = () => {
                   <div className="w-full flex justify-center items-center">
                     <div className="flex flex-col text-center">
                       <h1 className="text-dark dark:text-white text-3xl py-2 text-center">
-                        Welcome to {userName}
+                        Welcome to {userData?.name}
                       </h1>
                       <div
                         onClick={toggleRoomModal}
