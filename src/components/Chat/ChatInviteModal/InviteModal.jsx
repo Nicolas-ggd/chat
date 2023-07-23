@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { socket } from "../../../api/socket";
 
@@ -7,6 +8,7 @@ export const InviteModal = ({ toggleModal }) => {
   const [isType, setIsType] = useState("");
   const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const inviteLinkHandler = (e) => {
     setIsType(e.target.value);
@@ -24,6 +26,7 @@ export const InviteModal = ({ toggleModal }) => {
     const roomId = linkParts[linkParts.length - 1];
     socket.emit("createRoom", roomId);
     navigate(`/chat/${roomId}`);
+    dispatch("ROOM_ID", roomId);
     return roomId
   };
 

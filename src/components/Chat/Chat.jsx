@@ -3,7 +3,8 @@ import { useState } from "react";
 import { ChatSideBar } from "./ChatSidebar/ChatSideBar";
 import { ChatBox } from "./ChatBox/ChatBox";
 import { ChatCorner } from "./ChatCorner/ChatCorner";
-import ForumIcon from "@mui/icons-material/Forum";
+import { ChatLoading } from "./ChatLoading/ChatLoading";
+
 export const Chat = () => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -21,18 +22,7 @@ export const Chat = () => {
         </div>
       )}
       {isLoading && (
-        <div role="status">
-          <div className="flex flex-col items-center justify-center h-screen w-screen">
-            <ForumIcon
-              style={{ color: "#a507b8", fontSize: "50px" }}
-              fontSize="large"
-              className="animate-pulse animate-infinite animate-ease-out"
-            />
-            <h2 className="p-3 dark:text-white text-xl font-sans">
-              Welcome to QuickChat
-            </h2>
-          </div>
-        </div>
+        <ChatLoading />
       )}
     </>
   );
