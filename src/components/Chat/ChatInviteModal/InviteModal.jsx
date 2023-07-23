@@ -1,24 +1,30 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { socket } from "../../../api/socket";
 
 export const InviteModal = ({ toggleModal }) => {
   const [isType, setIsType] = useState("");
   const [isError, setIsError] = useState(false);
+  const navigate = useNavigate();
 
   const inviteLinkHandler = (e) => {
-    setIsType(e.target.value)
+    setIsType(e.target.value);
   };
 
   const joinRoomHandler = (e) => {
     e.preventDefault();
 
-    if(isType?.length === 0) {
-        return setIsError(true);
+    if (isType?.length === 0) {
+      return setIsError(true);
     }
 
-    socket.emit("createRoom", isType);
     toggleModal();
+    const linkParts = isType.split("/");
+    const roomId = linkParts[linkParts.length - 1];
+    socket.emit("createRoom", roomId);
+    navigate(`/chat/${roomId}`);
+    return roomId
   };
 
   return (
@@ -71,7 +77,10 @@ export const InviteModal = ({ toggleModal }) => {
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white transition duration-100"
                     style={{ color: isError ? "red" : "" }}
                   >
-                    {!isError ? "INVITE LINK" : "INVITE LINK - Please enter a valid invite link"} <span className="text-red-500">{!isError && "*"}</span>
+                    {!isError
+                      ? "INVITE LINK"
+                      : "INVITE LINK - Please enter a valid invite link"}{" "}
+                    <span className="text-red-500">{!isError && "*"}</span>
                   </label>
                   <div className="relative flex items-center">
                     <input
@@ -85,12 +94,22 @@ export const InviteModal = ({ toggleModal }) => {
                     />
                   </div>
                   <div className="flex flex-col py-1">
-                    <p className="mb-2 text-sm font-medium text-gray-900 dark:text-white">INVITES SHOULD LOOK LIKE</p>
+                    <p className="mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                      INVITES SHOULD LOOK LIKE
+                    </p>
                     <span className="text-sm">64e9w6rn</span>
-                    <span className="text-sm">https://localhost:5173/chat/64e9w6rn</span>
+                    <span className="text-sm">
+                      https://localhost:5173/chat/64e9w6rn
+                    </span>
                   </div>
                 </div>
-                <button onClick={joinRoomHandler} type="button" className="w-full transition duration-200 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Join room</button>
+                <button
+                  onClick={joinRoomHandler}
+                  type="button"
+                  className="w-full transition duration-200 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Join room
+                </button>
               </form>
             </div>
           </div>
