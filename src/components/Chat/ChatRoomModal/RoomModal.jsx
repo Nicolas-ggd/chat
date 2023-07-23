@@ -1,8 +1,6 @@
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { socket } from "../../../api/socket";
-
 const generateRoomId = () => {
   return Math.random().toString(36).substring(2, 10);
 };
@@ -31,7 +29,6 @@ export const RoomModal = ({ toggleRoom }) => {
       }
     }
 
-    socket.emit("createRoom", roomId);
     dispatch({
       type: "ROOM_ID",
       roomId: roomId,
