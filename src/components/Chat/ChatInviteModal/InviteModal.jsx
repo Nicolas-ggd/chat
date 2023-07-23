@@ -7,6 +7,7 @@ import { socket } from "../../../api/socket";
 export const InviteModal = ({ toggleModal }) => {
   const [isType, setIsType] = useState("");
   const [isError, setIsError] = useState(false);
+  const [isPublic, setIsPublic] = useState(false);
   const userData = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,10 +35,13 @@ export const InviteModal = ({ toggleModal }) => {
 
     navigate(`/chat/${roomId}`);
     dispatch("ROOM_ID", roomId);
-    dispatch("ROOM_TYPE", {
-      roomMode: "public",
+    if (isType) {
+      setIsPublic(true);
+    }
+    dispatch({
+      type: "ROOM_TYPE",
+      isPublic: true
     });
-    return roomId;
   };
 
   return (

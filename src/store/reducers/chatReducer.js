@@ -1,5 +1,5 @@
 const initialState = {
-    roomMode: '',
+    isPublic: false,
     roomId: '',
     chatMessages: [],
     selectedChat: ''
@@ -9,7 +9,7 @@ export const chatReducer = (state = initialState, action) => {
     if (action.type === "ROOM_TYPE") {
         return {
             ...state,
-            roomMode: action.roomMode
+            isPublic: action.isPublic
         }
     }
 
