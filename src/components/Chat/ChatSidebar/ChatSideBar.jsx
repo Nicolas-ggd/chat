@@ -30,7 +30,7 @@ export const ChatSideBar = () => {
   return (
     <div
       className="flex flex-col border-r-2 overflow-y-auto"
-      style={{ width: "500px" }}
+      style={{ width: "300px" }}
     >
       <div className="w-full flex justify-start">
         <h1 className="px-3 py-2 font-sans text-2xl font-bold">Chats</h1>

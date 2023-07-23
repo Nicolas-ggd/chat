@@ -9,6 +9,7 @@ import { RoomModal } from "../ChatRoomModal/RoomModal";
 
 import SendIcon from "@mui/icons-material/Send";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 export const ChatBox = () => {
   const [isTyping, setIsTyping] = useState("");
@@ -121,9 +122,15 @@ export const ChatBox = () => {
                       <h1 className="text-dark dark:text-white text-3xl py-2 text-center">
                         Welcome to {userName}
                       </h1>
-                      <div onClick={toggleRoomModal} className="p-4 bg-gray-200 hover:bg-gray-300 transition duration-200 rounded-md font-sans cursor-pointer">
+                      <div
+                        onClick={toggleRoomModal}
+                        className="p-4 bg-gray-200 hover:bg-gray-300 transition duration-200 rounded-md cursor-pointer"
+                      >
                         <GroupAddIcon className="mx-2" />
-                        Invite your friends
+                        <span className="font-sans text-sx px-2">
+                          Invite your friends
+                        </span>
+                        <ChevronRightIcon className="ml-10" />
                       </div>
                     </div>
                   </div>

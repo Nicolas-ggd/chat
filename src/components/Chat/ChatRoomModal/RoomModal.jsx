@@ -28,7 +28,7 @@ export const RoomModal = ({ toggleRoom }) => {
 
   return (
     <div
-      className="w-full h-screen absolute bg-gray-100 transition duration-200 animate-fade animate-ease-linear"
+      className="w-full h-screen absolute bg-gray-100 animate-fade animate-once animate-duration-1000 animate-ease-in"
       style={{ backgroundColor: "#0c0b0bb0" }}
     >
       <div
@@ -77,7 +77,7 @@ export const RoomModal = ({ toggleRoom }) => {
                       type="text"
                       name="text"
                       id="text"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                      className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                       placeholder="Room id..."
                       required
                       onChange={handleTyping}
@@ -86,7 +86,7 @@ export const RoomModal = ({ toggleRoom }) => {
                     <button
                       onClick={createRoom}
                       type="button"
-                      className="absolute right-2 flex items-center rounded-sm h-8 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition duration-200"
+                      className="absolute outline-none focus:outline-none focus:ring focus:border-blue-100 right-2 flex items-center rounded-sm h-8 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition duration-200"
                     >
                       Copy
                     </button>
