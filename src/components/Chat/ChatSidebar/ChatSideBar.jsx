@@ -1,40 +1,18 @@
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import axios from "axios";
 
 import { InviteModal } from "../ChatInviteModal/InviteModal";
+import { LogOut } from "../../Auth/LogOut/LogOut";
 
 import SearchIcon from "@mui/icons-material/Search";
-import LogoutIcon from "@mui/icons-material/Logout";
 import AddIcon from "@mui/icons-material/Add";
 
 export const ChatSideBar = () => {
   const [inviteToggle, setInviteToggle] = useState(false);
-  const userId = useSelector((state) => state.user.userId);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const toggleInviteModal = () => {
     setInviteToggle((prevData) => !prevData);
-  };
-
-  const userLogOut = async () => {
-    await axios
-      .post("http://localhost:8000/logout", {
-        userId: userId,
-      })
-      .then(() => {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("roomMode");
-        dispatch({
-          type: "USER_DATA",
-          userId: '',
-          name: '',
-          email: ''
-        })
-        navigate("/");
-      });
   };
 
   return (
@@ -83,17 +61,7 @@ export const ChatSideBar = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-row py-4 px-2 justify-center items-center border-b-2 cursor-pointer transition duration-400">
-            <div className="w-full px-3">
-              <div
-                className="w-full bg-gray-100 hover:bg-gray-200 cursor-pointer p-2 rounded-xl flex justify-center"
-                onClick={userLogOut}
-              >
-                <span>Log Out</span>
-                <LogoutIcon className="mx-3" />
-              </div>
-            </div>
-          </div>
+          <LogOut />
         </div>
       </div>
       {inviteToggle && <InviteModal toggleModal={toggleInviteModal} />}
