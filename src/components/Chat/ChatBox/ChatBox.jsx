@@ -44,17 +44,26 @@ export const ChatBox = () => {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    socket.emit("publicMessage", {
-      participants: [userData?.userId],
-      messages: {
-        sender: userData?.userId,
-        content: isTyping,
-        room: roomId,
-      },
-      isPublic: {
-        isPublic: true,
-      },
-    });
+    await axios
+      .post("http://localhost:8000/chat/create-conversation", {
+        participants: [userData?.userId],
+        messages: {
+          sender: userData?.userId,
+          content: isTyping,
+          room: roomId,
+        },
+        isPublic: {
+          isPublic: true,
+        },
+      })
+      .then((res) => {
+        const data = res.data;
+        socket.emit("publicMessage", {
+          roomId,
+          data,
+        });
+      });
+
     scrollToBottom();
     setIsTyping("");
   };
@@ -73,9 +82,7 @@ export const ChatBox = () => {
     };
 
     publicConversation();
-  }, [roomId]);
 
-  useEffect(() => {
     socket.on("publicMessageReceived", (data) => {
       console.log(data, "kai dzma da");
       setIsMessage((prevData) => [...prevData, data]);
@@ -86,21 +93,20 @@ export const ChatBox = () => {
     };
   }, [roomId]);
 
-
   const formatDate = (time) => {
     const date = new Date(time);
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const day = date.getDate().toString().padStart(2, "0");
     const year = date.getFullYear().toString();
     const formattedDate = `${month}/${day}/${year}`;
-  
+
     const formattedTime = date.toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
     });
-  
+
     const result = `${formattedDate} ${formattedTime}`;
-  
+
     return result;
   };
 
@@ -145,7 +151,7 @@ export const ChatBox = () => {
                   {isMessage &&
                     isMessage?.map((item, index) => {
                       return item?.messages?.map((msg, subIndex) => {
-                        const timestamp = msg?.timestamp
+                        const timestamp = msg?.timestamp;
                         const msgTime = formatDate(timestamp);
 
                         return (
@@ -161,9 +167,7 @@ export const ChatBox = () => {
                                 <p className="text-md py-1 text-sm">
                                   {msg?.sender?.name}
                                 </p>
-                                <span className="text-sm px-2">
-                                  {msgTime}
-                                </span>
+                                <span className="text-sm px-2">{msgTime}</span>
                               </div>
                               <p className="text-sm pb-1">{msg?.content}</p>
                             </div>
