@@ -22,26 +22,17 @@ export const InviteModal = ({ toggleModal }) => {
     if (isType?.length === 0) {
       return setIsError(true);
     }
-
-    toggleModal();
-
+    
     const linkParts = isType.split("/");
     const roomId = linkParts[linkParts.length - 1];
+      console.log(roomId)
 
-    socket.emit("createRoom", {
-      roomId,
-      userData,
-    });
-
-    navigate(`/chat/${roomId}`);
-    dispatch("ROOM_ID", roomId);
-    if (isType) {
-      setIsPublic(true);
-    }
-    dispatch({
-      type: "ROOM_TYPE",
-      isPublic: true
-    });
+      navigate(`/chat/${roomId}`);
+      dispatch({ type: "ROOM_ID", roomId: roomId })
+      socket.emit("joinRoom", {
+        roomId, userData
+      })
+    toggleModal();
   };
 
   return (

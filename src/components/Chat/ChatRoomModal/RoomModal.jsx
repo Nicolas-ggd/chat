@@ -29,10 +29,6 @@ export const RoomModal = ({ toggleRoom }) => {
       }
     }
 
-    dispatch({
-      type: "ROOM_ID",
-      roomId: roomId,
-    });
   };
 
   setTimeout(() => setIsClicked(false), 2000);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
@@ -10,16 +10,28 @@ import { RoomModal } from "../ChatRoomModal/RoomModal";
 import SendIcon from "@mui/icons-material/Send";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
 
 export const ChatBox = () => {
   const [isTyping, setIsTyping] = useState("");
   const [toggleRoom, setToggleRoom] = useState(false);
   const [isMessage, setIsMessage] = useState([]);
+  const messageRef = useRef(null);
   const userData = useSelector((state) => state.user);
   const isPublic = useSelector((state) => state.chat.isPublic);
 
   const selectedChat = useSelector((state) => state.chat.selectedChat);
   const roomId = useSelector((state) => state.chat.roomId);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [roomId]);
+
+  const scrollToBottom = () => {
+    if (messageRef.current) {
+      messageRef.current.scrollTop = messageRef.current.scrollHeight;
+    }
+  };
 
   const handleTyping = (e) => {
     setIsTyping(e.target.value);
@@ -43,8 +55,53 @@ export const ChatBox = () => {
         isPublic: true,
       },
     });
-
+    scrollToBottom();
     setIsTyping("");
+  };
+
+  useEffect(() => {
+    const publicConversation = async () => {
+      await axios
+        .get(
+          `http://localhost:8000/chat/get-public-conversation?roomId=${roomId}`
+        )
+        .then((res) => {
+          const data = res.data;
+          console.log(data);
+          setIsMessage(data);
+        });
+    };
+
+    publicConversation();
+  }, [roomId]);
+
+  useEffect(() => {
+    socket.on("publicMessageReceived", (data) => {
+      console.log(data, "kai dzma da");
+      setIsMessage((prevData) => [...prevData, data]);
+    });
+
+    return () => {
+      socket.off("publicMessageReceived");
+    };
+  }, [roomId]);
+
+
+  const formatDate = (time) => {
+    const date = new Date(time);
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const year = date.getFullYear().toString();
+    const formattedDate = `${month}/${day}/${year}`;
+  
+    const formattedTime = date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  
+    const result = `${formattedDate} ${formattedTime}`;
+  
+    return result;
   };
 
   return (
@@ -56,9 +113,16 @@ export const ChatBox = () => {
         >
           <div className="w-full px-5 flex h-full flex-col justify-between">
             <ChatHeader />
-            <div className="flex flex-col h-full" style={{ flexFlow: "wrap" }}>
-              <div className="w-full h-full" style={{ overflowY: "auto" }}>
-                <div className="w-full flex mt-5 h-full py-5">
+            <div className="flex flex-col h-full">
+              <div
+                className="w-full h-full"
+                style={{ overflowY: "auto" }}
+                ref={messageRef}
+              >
+                <div
+                  className="w-full flex mt-5 h-full py-5"
+                  style={{ height: "30vh" }}
+                >
                   <div className="w-full flex justify-center items-center">
                     <div className="flex flex-col text-center">
                       <h1 className="text-dark dark:text-white text-3xl py-2 text-center">
@@ -80,64 +144,36 @@ export const ChatBox = () => {
                 <div className="flex flex-col mt-5 h-full py-5">
                   {isMessage &&
                     isMessage?.map((item, index) => {
-                      console.log(item)
-                      return (
-                        <div key={index} className="flex justify-end mb-4">
-                          <div className="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
-                            {item?.messages[0]?.content}
-                          </div>
-                          <img
-                            src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-                            className="object-cover h-8 w-8 rounded-full"
-                            alt=""
-                          />
-                        </div>
-                      );
-                    })}
-                  {/* <div className="flex justify-start mb-4">
-                    <img
-                      src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-                      className="object-cover h-8 w-8 rounded-full"
-                      alt=""
-                    />
-                    <div className="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Quaerat at praesentium, aut ullam delectus odio error sit
-                      rem. Architecto nulla doloribus laborum illo rem enim
-                      dolor odio saepe, consequatur quas?
-                    </div>
-                  </div>
-                  <div className="flex justify-end mb-4">
-                    <div>
-                      <div className="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing
-                        elit. Magnam, repudiandae.
-                      </div>
+                      return item?.messages?.map((msg, subIndex) => {
+                        const timestamp = msg?.timestamp
+                        const msgTime = formatDate(timestamp);
 
-                      <div className="mt-4 mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Debitis, reiciendis!
-                      </div>
-                    </div>
-                    <img
-                      src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-                      className="object-cover h-8 w-8 rounded-full"
-                      alt=""
-                    />
-                  </div>
-                  <div className="flex justify-start mb-4">
-                    <img
-                      src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
-                      className="object-cover h-8 w-8 rounded-full"
-                      alt=""
-                    />
-                    <div className="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
-                      happy holiday guys!
-                    </div>
-                  </div> */}
+                        return (
+                          <div
+                            key={`${index}-${subIndex}`}
+                            className="flex justify-start mb-4"
+                          >
+                            <div className="object-cover h-10 w-10 rounded-full bg-green-300 flex justify-center items-center">
+                              <SmartToyIcon />
+                            </div>
+                            <div className="mr-2 px-4 bg-gray-400  mx-3 text-white flex-col">
+                              <div className="flex items-center">
+                                <p className="text-md py-1 text-sm">
+                                  {msg?.sender?.name}
+                                </p>
+                                <span className="text-sm px-2">
+                                  {msgTime}
+                                </span>
+                              </div>
+                              <p className="text-sm pb-1">{msg?.content}</p>
+                            </div>
+                          </div>
+                        );
+                      });
+                    })}
                 </div>
               </div>
-              <div className="pb-10 w-full">
+              <div className="pt-10 w-full">
                 <form
                   className="w-full relative flex items-center"
                   onSubmit={sendMessage}

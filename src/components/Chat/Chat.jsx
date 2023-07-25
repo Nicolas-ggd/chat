@@ -13,11 +13,11 @@ export const Chat = () => {
   const userData = useSelector((state) => state.user);
 
   useEffect(() => {
-    socket.emit("createRoom", {
+    socket.emit("joinRoom", {
       roomId,
       userData,
     });
-  }, []);
+  }, [roomId]);
 
   setTimeout(() => setIsLoading(false), 3000);
 
