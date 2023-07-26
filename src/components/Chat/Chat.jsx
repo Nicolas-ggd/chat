@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 
-import { ChatSideBar } from "./ChatSidebar/ChatSideBar";
+import { ChatSideBar } from "./ChatSideBar/ChatSideBar";
 import { ChatBox } from "./ChatBox/ChatBox";
-import { ChatCorner } from "./ChatCorner/ChatCorner";
 import { ChatLoading } from "./ChatLoading/ChatLoading";
 import { useSelector } from "react-redux";
 import { socket } from "../../api/socket";
@@ -28,7 +27,6 @@ export const Chat = () => {
           <div className="flex flex-row h-screen w-full overflow-x-hidden">
             <ChatSideBar />
             <ChatBox />
-            <ChatCorner />
           </div>
         </div>
       )}
