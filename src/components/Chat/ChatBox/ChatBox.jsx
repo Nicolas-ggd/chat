@@ -1,18 +1,89 @@
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { socket } from "../../../api/socket";
 
 import { RoomModal } from "../ChatRoomModal/RoomModal";
 import { ChatHeader } from "../ChatHeader/ChatHeader";
 
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
 
 export const ChatBox = () => {
-  const userName = useSelector((state) => state.user.name);
   const [toggleRoom, setToggleRoom] = useState(false);
+  const [isValue, setIsValue] = useState("");
+  const [isMessage, setIsMessage] = useState([]);
+  const userName = useSelector((state) => state.user.name);
+  const userId = useSelector((state) => state.user.userId);
+  const { id } = useParams();
+  const scrollRef = useRef(null);
 
   const toggleRoomModal = () => {
     setToggleRoom((prevData) => !prevData);
   };
+
+  const inputTyping = (e) => {
+    setIsValue(e.target.value);
+  };
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+
+    await axios
+      .post("http://localhost:8000/chat/create-conversation", {
+        participants: [userId],
+        messages: {
+          sender: userId,
+          content: isValue,
+          room: id,
+        },
+        isPublic: true,
+      })
+      .then((res) => {
+        const data = res.data;
+        console.log(data, "data");
+        socket.emit("new-message", data);
+        scrollToBottom();
+      });
+
+    setIsValue("");
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [sendMessage]);
+
+  const scrollToBottom = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    socket.on("new-message-received", (data) => {
+      setIsMessage((prevData) => [...prevData, data]);
+    });
+
+    return () => {
+      socket.off("new-message-received");
+    };
+  }, []);
+
+  useEffect(() => {
+    const getConversationMessages = async () => {
+      await axios
+        .get(`http://localhost:8000/chat/get-public-conversation?roomId=${id}`)
+        .then((res) => {
+          const data = res.data;
+          console.log(data);
+          setIsMessage([]);
+          setIsMessage(data);
+        });
+    };
+
+    getConversationMessages();
+  }, []);
 
   return (
     <>
@@ -23,7 +94,7 @@ export const ChatBox = () => {
             className="w-full px-5 flex flex-col justify-between flex"
             style={{ height: "90vh" }}
           >
-            <div className="flex flex-col mt-5 h-full" style={{overflow: "scroll"}}>
+            <div style={{ overflow: "scroll" }} ref={scrollRef}>
               <div className="h-full flex justify-center items-center mb-4">
                 <div className="p-4 bg-gray-200 rounded-md text-center">
                   <div className="py-2">
@@ -36,20 +107,49 @@ export const ChatBox = () => {
                     </p>
                   </div>
                   <div className="py-2">
-                    <div onClick={toggleRoomModal} className="p-4 bg-gray-400 rounded-md text-center flex justify-center cursor-pointer hover:bg-gray-300 transition duration-200">
+                    <div
+                      onClick={toggleRoomModal}
+                      className="p-4 bg-gray-400 rounded-md text-center flex justify-center cursor-pointer hover:bg-gray-300 transition duration-200"
+                    >
                       <GroupAddIcon />
                       <p className="px-2">Invite your friends</p>
                     </div>
                   </div>
                 </div>
               </div>
+              <div className="flex flex-col mt-5 h-full">
+                {isMessage &&
+                  isMessage.map((item, index) => {
+                    return item?.messages?.map((msg, subIndex) => (
+                      <div
+                        className="flex justify-start mb-4"
+                        key={`${index}-${subIndex}`}
+                      >
+                        <div
+                          className="bg-green-400 h-10 w-10 rounded-full flex items-center justify-center px-1"
+                          alt=""
+                        >
+                          <SmartToyIcon />
+                        </div>
+                        <div className="mx-2 flex flex-col p-2 rounded-full bg-gray-300">
+                          <div className="px-2">{msg?.sender?.name}</div>
+                          {msg?.content}
+                        </div>
+                      </div>
+                    ));
+                  })}
+              </div>
             </div>
             <div className="py-5">
-              <input
-                className="w-full bg-gray-100 py-4 px-3 rounded-xl"
-                type="text"
-                placeholder="Message..."
-              />
+              <form onSubmit={sendMessage}>
+                <input
+                  className="w-full bg-gray-100 py-4 px-3 rounded-xl"
+                  type="text"
+                  placeholder="Message..."
+                  onChange={inputTyping}
+                  value={isValue}
+                />
+              </form>
             </div>
           </div>
           <div className="w-2/5 border-l-2 px-5">
