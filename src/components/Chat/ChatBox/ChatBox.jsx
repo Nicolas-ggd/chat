@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 
 import { RoomModal } from "../ChatRoomModal/RoomModal";
+import { ChatHeader } from "../ChatHeader/ChatHeader";
 
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
@@ -16,12 +17,13 @@ export const ChatBox = () => {
   return (
     <>
       <div className="container mx-auto shadow-lg rounded-lg">
+        <ChatHeader />
         <div className="flex flex-row justify-between bg-white">
           <div
             className="w-full px-5 flex flex-col justify-between flex"
-            style={{ height: "100vh" }}
+            style={{ height: "90vh" }}
           >
-            <div className="flex flex-col mt-5 h-full">
+            <div className="flex flex-col mt-5 h-full" style={{overflow: "scroll"}}>
               <div className="h-full flex justify-center items-center mb-4">
                 <div className="p-4 bg-gray-200 rounded-md text-center">
                   <div className="py-2">

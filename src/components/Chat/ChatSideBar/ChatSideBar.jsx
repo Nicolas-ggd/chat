@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { LogOut } from "../../Auth/LogOut/LogOut";
 import { InviteModal } from "../ChatInviteModal/InviteModal";
@@ -7,6 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 
 export const ChatSideBar = () => {
   const [toggleInviteModal, setToggleInviteModal] = useState(false);
+  const selectedChat = useSelector((state) => state.chat.selectedChat);
 
   const toggleModal = () => {
     setToggleInviteModal((prevData) => !prevData);
@@ -28,31 +31,34 @@ export const ChatSideBar = () => {
               onClick={toggleModal}
               className="flex flex-row py-4 px-2 justify-center items-center border-b-2 hover:bg-gray-200 transiton duration-200 cursor-pointer"
             >
-              <button className="w-12 h-12 bg-gray-300 rounded-full">
-                <AddIcon className="text-center" />
-              </button>
-              <div className="w-full px-4">
+              <div className="w-1/4">
+                <button className="w-12 h-12 bg-gray-300 rounded-full">
+                  <AddIcon className="text-center" />
+                </button>
+              </div>
+              <div className="w-full">
                 <div className="text-lg font-semibold">Join a room</div>
               </div>
             </div>
-            <div className="flex flex-row py-4 px-2 justify-center items-center border-b-2">
+            <Link
+              to={`/chat/${selectedChat}`}
+              className="flex flex-row py-4 px-2 justify-center items-center border-b-2 hover:bg-gray-200 transiton duration-200 cursor-pointer"
+            >
               <div className="w-1/4">
-                <img
-                  src="https://source.unsplash.com/_7LbC5J-jw4/600x600"
-                  className="object-cover h-12 w-12 rounded-full"
-                  alt=""
-                />
+                <button className="w-12 h-12 bg-gray-300 rounded-full">
+                  {selectedChat.at(0)}
+                </button>
               </div>
               <div className="w-full">
-                <div className="text-lg font-semibold">Luis1994</div>
+                <div className="text-lg font-semibold">{selectedChat}</div>
                 <span className="text-gray-500">Pick me at 9:00 Am</span>
               </div>
-            </div>
+            </Link>
           </div>
           <LogOut />
         </div>
       </div>
-      {toggleInviteModal && <InviteModal toggleModal={toggleModal}/>}
+      {toggleInviteModal && <InviteModal toggleModal={toggleModal} />}
     </>
   );
 };
