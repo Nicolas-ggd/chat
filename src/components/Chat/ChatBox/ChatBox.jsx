@@ -151,7 +151,7 @@ export const ChatBox = () => {
     <>
       <div className="container mx-auto shadow-lg rounded-lg">
         <ChatHeader />
-        <div className="flex flex-row justify-between bg-white dark:bg-gray-900">
+        <div className="flex flex-row justify-between bg-white dark:bg-gray-900 transition duration-300">
           <div
             className="w-full px-5 flex flex-col justify-between flex"
             style={{ height: "90vh" }}
@@ -162,7 +162,7 @@ export const ChatBox = () => {
               ref={scrollRef}
             >
               <div className="h-full flex justify-center items-center mb-4">
-                <div className="p-4 bg-gray-200 dark:bg-gray-400 rounded-md text-center">
+                <div className="p-4 bg-gray-200 dark:bg-gray-400 rounded-md text-center transition duration-300">
                   <div className="py-2">
                     <h1 className="font-sans text-2xl font-bold pb-2">
                       Welcome to {userName}'s group
@@ -175,7 +175,7 @@ export const ChatBox = () => {
                   <div className="py-2">
                     <div
                       onClick={toggleRoomModal}
-                      className="dark:bg-gray-600 dark:text-gray-300 hover:dark:bg-gray-500 p-4 bg-gray-400 rounded-md text-center flex justify-center cursor-pointer hover:bg-gray-300 transition duration-200"
+                      className="dark:bg-gray-600 dark:text-gray-300 hover:dark:bg-gray-500 p-4 bg-gray-400 rounded-md text-center flex justify-center cursor-pointer hover:bg-gray-300 transition duration-300"
                     >
                       <GroupAddIcon />
                       <p className="px-2">Invite your friends</p>
@@ -221,14 +221,14 @@ export const ChatBox = () => {
             </div>
             <div ref={emojiPickerRef} className="py-5">
               <div className="w-full flex justify-end">
-                <div className="absolute bottom-20 pb-3 flex justify-end transition duration-200">
+                <div className="absolute bottom-20 pb-3 flex justify-end transition duration-300">
                   {isEmoji && <EmojiPicker onEmojiClick={selectEmoji} />}
                 </div>
               </div>
               <form className="w-full" onSubmit={sendMessage}>
                 <div className="flex items-center w-full relative">
                   <input
-                    className="w-full bg-gray-100 py-4 px-3 rounded-xl dark:bg-gray-800 dark:text-white"
+                    className="w-full bg-gray-100 py-4 px-3 rounded-xl dark:bg-gray-800 dark:text-white transition duration-300"
                     type="text"
                     placeholder="Message..."
                     onChange={inputTyping}

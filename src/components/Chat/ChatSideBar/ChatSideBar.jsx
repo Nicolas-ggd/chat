@@ -18,22 +18,22 @@ export const ChatSideBar = () => {
 
   return (
     <>
-      <div className="flex flex-col w-1/5 overflow-y-auto dark:bg-gray-900">
+      <div className="flex flex-col w-1/5 overflow-y-auto dark:bg-gray-900 bg-gray-100 transition duration-300">
         <div className="py-5 my-1 px-2">
           <input
             type="text"
             placeholder="search chatting"
-            className="dark:text-white py-2 px-2 border-2 border-gray-200 dark:border-gray-800 rounded-2xl w-full dark:bg-gray-800"
+            className="dark:text-white py-2 px-2 border-2 border-gray-200 dark:border-gray-800 rounded-2xl w-full dark:bg-gray-800 transition duration-300"
           />
         </div>
         <div className="flex h-full w-full flex-col justify-between">
           <div>
             <div
               onClick={toggleModal}
-              className="flex flex-row py-4 px-2 justify-center items-center bg-gray-200 hover:bg-gray-300 transiton duration-200 cursor-pointer dark:bg-gray-800 hover:dark:bg-gray-700"
+              className="flex flex-row py-4 px-2 justify-center items-center bg-gray-200 hover:bg-gray-300 transiton duration-300 cursor-pointer dark:bg-gray-800 hover:dark:bg-gray-700"
             >
               <div className="w-1/4">
-                <button className="w-12 h-12 bg-gray-600 rounded-full">
+                <button className="w-12 h-12 bg-gray-400 rounded-full">
                   <AddIcon className="text-center dark:text-white" />
                 </button>
               </div>
@@ -44,10 +44,10 @@ export const ChatSideBar = () => {
             {id && (
               <Link
                 to={`/chat/${selectedChat}`}
-                className="dark:bg-gray-800 hover:dark:bg-gray-700 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-200 transiton duration-200 cursor-pointer"
+                className="dark:bg-gray-800 hover:dark:bg-gray-700 bg-gray-200 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
               >
                 <div className="w-1/4">
-                  <button className="dark:bg-gray-600 w-12 h-12 bg-gray-300 rounded-full dark:text-white">
+                  <button className="dark:bg-gray-600 w-12 h-12 bg-gray-400 rounded-full dark:text-white transition duration-300">
                     {selectedChat.at(0)}
                   </button>
                 </div>

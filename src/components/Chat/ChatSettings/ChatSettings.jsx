@@ -30,15 +30,15 @@ export const ChatSettings = () => {
       )}
       <div
         onClick={toggleSettingList}
-        className="flex flex-row py-4 px-2 justify-center items-center cursor-pointer transition duration-400"
+        className="flex flex-row py-4 px-2 justify-center items-center cursor-pointer transition duration-300"
       >
         <div className="w-full px-3">
-          <div className="w-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 cursor-pointer p-2 rounded-xl flex justify-center items-center hover:dark:bg-gray-700">
+          <div className="w-full bg-gray-200 dark:bg-gray-800 hover:bg-gray-200 cursor-pointer p-2 rounded-xl flex justify-center items-center hover:dark:bg-gray-700 transition duration-300">
             <div className="bg-green-400 h-10 w-10 rounded-full flex items-center justify-center px-1">
               <SmartToyIcon className="dark:text-white" />
             </div>
             <p className="px-2 dark:text-white">{userName}</p>
-            <MoreHorizIcon className="ml-4 dark:text-white" />
+            <MoreHorizIcon className="ml-4 dark:text-white transition duration-300" />
           </div>
         </div>
       </div>
