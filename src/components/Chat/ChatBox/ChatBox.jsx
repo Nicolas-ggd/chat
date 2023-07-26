@@ -76,14 +76,13 @@ export const ChatBox = () => {
   useEffect(() => {
     socket.on("new-message-received", (data) => {
       setIsMessage((prevData) => {
-        // If prevData is an empty array, return the new message as the first element
+        // If prevData is an empty array, return a new object with messages array containing the new message
         if (prevData.length === 0) {
-          return [data];
+          console.log(data, 'data')
+          return [{ messages: [data] }];
         } else {
           // If prevData contains messages, append the new message to the messages array
-          return [
-            { ...prevData[0], messages: [...prevData[0].messages, data] },
-          ];
+          return [{ ...prevData[0], messages: [...prevData[0].messages, data] }];
         }
       });
     });
