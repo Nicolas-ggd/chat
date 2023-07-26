@@ -7,7 +7,6 @@ import { socket } from "../../../api/socket";
 export const InviteModal = ({ toggleModal }) => {
   const [isType, setIsType] = useState("");
   const [isError, setIsError] = useState(false);
-  const [isPublic, setIsPublic] = useState(false);
   const userData = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -22,17 +21,18 @@ export const InviteModal = ({ toggleModal }) => {
     if (isType?.length === 0) {
       return setIsError(true);
     }
-    
+
     const linkParts = isType.split("/");
     const roomId = linkParts[linkParts.length - 1];
-      console.log(roomId)
 
-      navigate(`/chat/${roomId}`);
-      dispatch({ type: "ROOM_ID", roomId: roomId });
-      dispatch({ type: "SELECTED_CHAT", selectedChat: roomId });
-      socket.emit("joinRoom", {
-        roomId, userData
-      })
+    navigate(`/chat/${roomId}`);
+    dispatch({ type: "ROOM_ID", roomId: roomId });
+    dispatch({ type: "SELECTED_CHAT", selectedChat: roomId });
+    socket.emit("joinRoom", {
+      roomId,
+      userData,
+    });
+
     toggleModal();
   };
 

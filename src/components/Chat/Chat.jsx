@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 import { ChatSideBar } from "./ChatSideBar/ChatSideBar";
 import { ChatBox } from "./ChatBox/ChatBox";
@@ -8,15 +9,17 @@ import { socket } from "../../api/socket";
 
 export const Chat = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const roomId = useSelector((state) => state.chat.roomId);
   const userData = useSelector((state) => state.user);
+  const { id } = useParams();
 
   useEffect(() => {
-    socket.emit("joinRoom", {
-      roomId,
-      userData,
-    });
-  }, [roomId]);
+    if(id) {
+      socket.emit("joinRoom", {
+        roomId: id,
+        userData,
+      });
+    }
+  }, [id]);
 
   setTimeout(() => setIsLoading(false), 3000);
 
