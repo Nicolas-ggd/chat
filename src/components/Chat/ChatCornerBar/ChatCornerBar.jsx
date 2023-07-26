@@ -23,13 +23,13 @@ export const ChatCornerBar = () => {
 
   useEffect(() => {
     socket.on("userDisconnected", (data) => {
-        console.log(data, 'userDisconnected')
+      console.log(data, "userDisconnected");
     });
 
     return () => {
-        socket.off("userDisconnected")
-    }
-  }, [])
+      socket.off("userDisconnected");
+    };
+  }, []);
 
   return (
     <div className="w-2/5 border-l-2 px-5">
@@ -46,6 +46,7 @@ export const ChatCornerBar = () => {
               </div>
             );
           })}
+        {isMembers?.length === 0 && <h1>No members</h1>}
       </div>
     </div>
   );

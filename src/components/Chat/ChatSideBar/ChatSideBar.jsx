@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { LogOut } from "../../Auth/LogOut/LogOut";
+// import { LogOut } from "../../Auth/LogOut/LogOut";
+import { ChatSettings } from "../ChatSettings/ChatSettings";
 import { InviteModal } from "../ChatInviteModal/InviteModal";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -40,7 +41,7 @@ export const ChatSideBar = () => {
                 <div className="text-lg font-semibold">Join a room</div>
               </div>
             </div>
-            <Link
+            {selectedChat && <Link
               to={`/chat/${selectedChat}`}
               className="flex flex-row py-4 px-2 justify-center items-center border-b-2 hover:bg-gray-200 transiton duration-200 cursor-pointer"
             >
@@ -51,11 +52,10 @@ export const ChatSideBar = () => {
               </div>
               <div className="w-full">
                 <div className="text-lg font-semibold">{selectedChat}</div>
-                <span className="text-gray-500">Pick me at 9:00 Am</span>
               </div>
-            </Link>
+            </Link>}
           </div>
-          <LogOut />
+          <ChatSettings />
         </div>
       </div>
       {toggleInviteModal && <InviteModal toggleModal={toggleModal} />}
