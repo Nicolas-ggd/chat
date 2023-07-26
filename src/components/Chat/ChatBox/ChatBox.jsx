@@ -6,6 +6,7 @@ import { socket } from "../../../api/socket";
 
 import { RoomModal } from "../ChatRoomModal/RoomModal";
 import { ChatHeader } from "../ChatHeader/ChatHeader";
+import { ChatCornerBar } from "../ChatCornerBar/ChatCornerBar";
 
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
@@ -154,10 +155,7 @@ export const ChatBox = () => {
                           className="flex justify-start mb-4"
                           key={`${index}-${subIndex}`}
                         >
-                          <div
-                            className="bg-green-400 h-10 w-10 rounded-full flex items-center justify-center px-1"
-                            alt=""
-                          >
+                          <div className="bg-green-400 h-10 w-10 rounded-full flex items-center justify-center px-1">
                             <SmartToyIcon />
                           </div>
                           <div className="mr-2 px-4 bg-gray-400  mx-3 text-white flex-col">
@@ -187,21 +185,7 @@ export const ChatBox = () => {
               </form>
             </div>
           </div>
-          <div className="w-2/5 border-l-2 px-5">
-            <div className="flex flex-col">
-              <div className="font-semibold text-xl py-4">Mern Stack Group</div>
-              <img
-                src="https://source.unsplash.com/L2cxSuKWbpo/600x600"
-                className="object-cover rounded-xl h-64"
-                alt=""
-              />
-              <div className="font-semibold py-4">Created 22 Sep 2021</div>
-              <div className="font-light">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Deserunt, perspiciatis!
-              </div>
-            </div>
-          </div>
+          <ChatCornerBar />
         </div>
       </div>
 

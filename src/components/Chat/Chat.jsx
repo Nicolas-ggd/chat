@@ -13,13 +13,13 @@ export const Chat = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    if(id) {
+    if(id && userData) {
       socket.emit("joinRoom", {
         roomId: id,
-        userData,
+        userData: userData,
       });
     }
-  }, [id]);
+  }, [id, userData]);
 
   setTimeout(() => setIsLoading(false), 3000);
 
