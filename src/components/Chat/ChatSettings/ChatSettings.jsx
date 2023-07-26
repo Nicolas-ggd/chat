@@ -20,7 +20,7 @@ export const ChatSettings = () => {
       {toggleSettings && (
         <div className="w-full flex flex-col p-3 justify-center items-center">
           <LogOut />
-          <div className="w-full my-1 bg-gray-200 p-2 text-center rounded-xl hover:bg-gray-400 transition duration-300 cursor-pointer flex items-center justify-center">
+          <div className="w-full my-1 bg-gray-200 dark:bg-gray-800 dark:text-white p-2 text-center rounded-xl hover:bg-gray-400 transition duration-300 cursor-pointer flex items-center justify-center hover:dark:bg-gray-700">
             Switch
             <div className="px-2">
               <Switcher />
@@ -30,15 +30,15 @@ export const ChatSettings = () => {
       )}
       <div
         onClick={toggleSettingList}
-        className="flex flex-row py-4 px-2 justify-center items-center border-b-2 cursor-pointer transition duration-400"
+        className="flex flex-row py-4 px-2 justify-center items-center cursor-pointer transition duration-400"
       >
         <div className="w-full px-3">
-          <div className="w-full bg-gray-100 hover:bg-gray-200 cursor-pointer p-2 rounded-xl flex justify-center items-center">
+          <div className="w-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 cursor-pointer p-2 rounded-xl flex justify-center items-center hover:dark:bg-gray-700">
             <div className="bg-green-400 h-10 w-10 rounded-full flex items-center justify-center px-1">
-              <SmartToyIcon />
+              <SmartToyIcon className="dark:text-white" />
             </div>
-            <p className="px-2">{userName}</p>
-            <MoreHorizIcon className="ml-4" />
+            <p className="px-2 dark:text-white">{userName}</p>
+            <MoreHorizIcon className="ml-4 dark:text-white" />
           </div>
         </div>
       </div>

@@ -106,8 +106,8 @@ export const InviteModal = ({ toggleModal }) => {
                     <p className="mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       INVITES SHOULD LOOK LIKE
                     </p>
-                    <span className="text-sm">64e9w6rn</span>
-                    <span className="text-sm">
+                    <span className="text-sm dark:text-white">64e9w6rn</span>
+                    <span className="text-sm dark:text-white">
                       https://localhost:5173/chat/64e9w6rn
                     </span>
                   </div>

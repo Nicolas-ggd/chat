@@ -28,7 +28,7 @@ export const LogOut = () => {
   };
 
   return (
-    <div onClick={userLogOut} className="w-full bg-gray-200 p-2 my-1 text-center rounded-xl hover:bg-gray-400 transition duration-300 cursor-pointer flex items-center justify-center">
+    <div onClick={userLogOut} className="w-full bg-gray-200 p-2 my-1 text-center rounded-xl hover:bg-gray-400 transition duration-300 cursor-pointer flex items-center justify-center dark:bg-gray-800 dark:text-white hover:dark:bg-gray-700">
       <span className="">LogOut</span>
       <span className="px-2">
         <LogoutIcon />

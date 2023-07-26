@@ -18,41 +18,41 @@ export const ChatSideBar = () => {
 
   return (
     <>
-      <div className="flex flex-col w-1/5 border-r-2 overflow-y-auto">
-        <div className="border-b-2 py-4 px-2">
+      <div className="flex flex-col w-1/5 overflow-y-auto dark:bg-gray-900">
+        <div className="py-5 my-1 px-2">
           <input
             type="text"
             placeholder="search chatting"
-            className="py-2 px-2 border-2 border-gray-200 rounded-2xl w-full"
+            className="dark:text-white py-2 px-2 border-2 border-gray-200 dark:border-gray-800 rounded-2xl w-full dark:bg-gray-800"
           />
         </div>
         <div className="flex h-full w-full flex-col justify-between">
           <div>
             <div
               onClick={toggleModal}
-              className="flex flex-row py-4 px-2 justify-center items-center border-b-2 hover:bg-gray-200 transiton duration-200 cursor-pointer"
+              className="flex flex-row py-4 px-2 justify-center items-center bg-gray-200 hover:bg-gray-300 transiton duration-200 cursor-pointer dark:bg-gray-800 hover:dark:bg-gray-700"
             >
               <div className="w-1/4">
-                <button className="w-12 h-12 bg-gray-300 rounded-full">
-                  <AddIcon className="text-center" />
+                <button className="w-12 h-12 bg-gray-600 rounded-full">
+                  <AddIcon className="text-center dark:text-white" />
                 </button>
               </div>
               <div className="w-full">
-                <div className="text-lg font-semibold">Join a room</div>
+                <div className="text-lg font-semibold dark:text-white">Join a room</div>
               </div>
             </div>
             {id && (
               <Link
                 to={`/chat/${selectedChat}`}
-                className="flex flex-row py-4 px-2 justify-center items-center border-b-2 hover:bg-gray-200 transiton duration-200 cursor-pointer"
+                className="dark:bg-gray-800 hover:dark:bg-gray-700 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-200 transiton duration-200 cursor-pointer"
               >
                 <div className="w-1/4">
-                  <button className="w-12 h-12 bg-gray-300 rounded-full">
+                  <button className="dark:bg-gray-600 w-12 h-12 bg-gray-300 rounded-full dark:text-white">
                     {selectedChat.at(0)}
                   </button>
                 </div>
                 <div className="w-full">
-                  <div className="text-lg font-semibold">{selectedChat}</div>
+                  <div className="text-lg font-semibold dark:text-white">{selectedChat}</div>
                 </div>
               </Link>
             )}

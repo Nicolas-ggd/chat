@@ -32,9 +32,9 @@ export const ChatCornerBar = () => {
   }, []);
 
   return (
-    <div className="w-2/5 border-l-2 px-5">
+    <div className="w-2/5 px-5 dark:bg-gray-800">
       <div className="flex flex-col">
-        <h1 className="px-2 py-1 text-start">Group members</h1>
+        <h1 className="px-2 py-1 text-start dark:text-white">Group members</h1>
         {isMembers &&
           isMembers?.map((item, index) => {
             return (
@@ -42,11 +42,11 @@ export const ChatCornerBar = () => {
                 <div className="bg-green-400 h-10 w-10 rounded-full flex items-center justify-center px-1">
                   <SmartToyIcon />
                 </div>
-                <div className="px-2 text-gray-500">{item?.name}</div>
+                <div className="px-2 text-gray-500 dark:text-white">{item?.name}</div>
               </div>
             );
           })}
-        {isMembers?.length === 0 && <h1>No members</h1>}
+        {isMembers?.length === 0 && <h1 className="dark:text-white">No members</h1>}
       </div>
     </div>
   );
