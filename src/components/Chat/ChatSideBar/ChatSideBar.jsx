@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { ChatSettings } from "../ChatSettings/ChatSettings";
 import { InviteModal } from "../ChatInviteModal/InviteModal";
@@ -10,6 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 export const ChatSideBar = () => {
   const [toggleInviteModal, setToggleInviteModal] = useState(false);
   const selectedChat = useSelector((state) => state.chat.selectedChat);
+  const { id } = useParams();
 
   const toggleModal = () => {
     setToggleInviteModal((prevData) => !prevData);
@@ -40,19 +41,21 @@ export const ChatSideBar = () => {
                 <div className="text-lg font-semibold">Join a room</div>
               </div>
             </div>
-            {selectedChat && <Link
-              to={`/chat/${selectedChat}`}
-              className="flex flex-row py-4 px-2 justify-center items-center border-b-2 hover:bg-gray-200 transiton duration-200 cursor-pointer"
-            >
-              <div className="w-1/4">
-                <button className="w-12 h-12 bg-gray-300 rounded-full">
-                  {selectedChat.at(0)}
-                </button>
-              </div>
-              <div className="w-full">
-                <div className="text-lg font-semibold">{selectedChat}</div>
-              </div>
-            </Link>}
+            {id && (
+              <Link
+                to={`/chat/${selectedChat}`}
+                className="flex flex-row py-4 px-2 justify-center items-center border-b-2 hover:bg-gray-200 transiton duration-200 cursor-pointer"
+              >
+                <div className="w-1/4">
+                  <button className="w-12 h-12 bg-gray-300 rounded-full">
+                    {selectedChat.at(0)}
+                  </button>
+                </div>
+                <div className="w-full">
+                  <div className="text-lg font-semibold">{selectedChat}</div>
+                </div>
+              </Link>
+            )}
           </div>
           <ChatSettings />
         </div>
