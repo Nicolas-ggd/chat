@@ -42,7 +42,7 @@ export const ChatBox = () => {
       })
       .then((res) => {
         const data = res.data;
-        console.log(data, "data");
+        console.log(data, "new messages");
         socket.emit("new-message", data);
         scrollToBottom();
       });
@@ -62,7 +62,17 @@ export const ChatBox = () => {
 
   useEffect(() => {
     socket.on("new-message-received", (data) => {
-      setIsMessage((prevData) => [...prevData, data]);
+      setIsMessage((prevData) => {
+        // If prevData is an empty array, return the new message as the first element
+        if (prevData.length === 0) {
+          return [data];
+        } else {
+          // If prevData contains messages, append the new message to the messages array
+          return [
+            { ...prevData[0], messages: [...prevData[0].messages, data] },
+          ];
+        }
+      });
     });
 
     return () => {
@@ -76,7 +86,7 @@ export const ChatBox = () => {
         .get(`http://localhost:8000/chat/get-public-conversation?roomId=${id}`)
         .then((res) => {
           const data = res.data;
-          console.log(data);
+          console.log(data, "get request");
           setIsMessage([]);
           setIsMessage(data);
         });
