@@ -1,8 +1,10 @@
 import { useSelector } from "react-redux";
 import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
+
 import axios from "axios";
 import { socket } from "../../../api/socket";
+import EmojiPicker from "emoji-picker-react";
 
 import { RoomModal } from "../ChatRoomModal/RoomModal";
 import { ChatHeader } from "../ChatHeader/ChatHeader";
@@ -10,18 +12,30 @@ import { ChatCornerBar } from "../ChatCornerBar/ChatCornerBar";
 
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
+import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 
 export const ChatBox = () => {
   const [toggleRoom, setToggleRoom] = useState(false);
   const [isValue, setIsValue] = useState("");
   const [isMessage, setIsMessage] = useState([]);
+  const [isEmoji, setIsEmoji] = useState(false);
+  const [emojiValue, setEmojiValue] = useState("");
   const userName = useSelector((state) => state.user.name);
   const userId = useSelector((state) => state.user.userId);
   const { id } = useParams();
   const scrollRef = useRef(null);
+  const emojiPickerRef = useRef();
 
   const toggleRoomModal = () => {
     setToggleRoom((prevData) => !prevData);
+  };
+
+  const toggleEmoji = () => {
+    setIsEmoji((prevData) => !prevData);
+  };
+
+  const selectEmoji = (emoji) => {
+    setIsValue((prevValue) => prevValue + emoji.emoji);
   };
 
   const inputTyping = (e) => {
@@ -43,7 +57,6 @@ export const ChatBox = () => {
       })
       .then((res) => {
         const data = res.data;
-        console.log(data, "new messages");
         socket.emit("new-message", data);
         scrollToBottom();
       });
@@ -87,7 +100,6 @@ export const ChatBox = () => {
         .get(`http://localhost:8000/chat/get-public-conversation?roomId=${id}`)
         .then((res) => {
           const data = res.data;
-          console.log(data, "get request");
           setIsMessage([]);
           setIsMessage(data);
         });
@@ -112,6 +124,19 @@ export const ChatBox = () => {
 
     return result;
   };
+
+  const handleOutsideClick = (e) => {
+    if (emojiPickerRef.current && !emojiPickerRef.current.contains(e.target)) {
+      toggleEmoji();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideClick);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
 
   return (
     <>
@@ -173,15 +198,28 @@ export const ChatBox = () => {
                   })}
               </div>
             </div>
-            <div className="py-5">
-              <form onSubmit={sendMessage}>
-                <input
-                  className="w-full bg-gray-100 py-4 px-3 rounded-xl"
-                  type="text"
-                  placeholder="Message..."
-                  onChange={inputTyping}
-                  value={isValue}
-                />
+            <div ref={emojiPickerRef} className="py-5">
+              <div className="w-full flex justify-end">
+                <div className="absolute bottom-20 pb-3 flex justify-end transition duration-200">
+                  {isEmoji && <EmojiPicker onEmojiClick={selectEmoji} />}
+                </div>
+              </div>
+              <form className="w-full" onSubmit={sendMessage}>
+                <div className="flex items-center w-full relative">
+                  <input
+                    className="w-full bg-gray-100 py-4 px-3 rounded-xl"
+                    type="text"
+                    placeholder="Message..."
+                    onChange={inputTyping}
+                    value={isValue}
+                  />
+                  <div
+                    onClick={toggleEmoji}
+                    className="absolute right-3 transition duration-200"
+                  >
+                    <EmojiEmotionsIcon className=" text-gray-600 cursor-pointer" />
+                  </div>
+                </div>
               </form>
             </div>
           </div>
