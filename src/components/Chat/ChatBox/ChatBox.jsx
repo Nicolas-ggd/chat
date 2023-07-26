@@ -19,6 +19,7 @@ export const ChatBox = () => {
   const [isValue, setIsValue] = useState("");
   const [isMessage, setIsMessage] = useState([]);
   const [isEmoji, setIsEmoji] = useState(false);
+  const [isError, setIsError] = useState("");
   const userName = useSelector((state) => state.user.name);
   const userId = useSelector((state) => state.user.userId);
   const { id } = useParams();
@@ -43,6 +44,14 @@ export const ChatBox = () => {
 
   const sendMessage = async (e) => {
     e.preventDefault();
+
+    if (!id) {
+      setIsError("You need to select a chat to start a conversation!");
+    
+      setTimeout(() => {
+        setIsError("");
+      }, 3000);
+    }
 
     await axios
       .post("http://localhost:8000/chat/create-conversation", {
@@ -78,11 +87,13 @@ export const ChatBox = () => {
       setIsMessage((prevData) => {
         // If prevData is an empty array, return a new object with messages array containing the new message
         if (prevData.length === 0) {
-          console.log(data, 'data')
+          console.log(data, "data");
           return [{ messages: [data] }];
         } else {
           // If prevData contains messages, append the new message to the messages array
-          return [{ ...prevData[0], messages: [...prevData[0].messages, data] }];
+          return [
+            { ...prevData[0], messages: [...prevData[0].messages, data] },
+          ];
         }
       });
     });
@@ -145,7 +156,11 @@ export const ChatBox = () => {
             className="w-full px-5 flex flex-col justify-between flex"
             style={{ height: "90vh" }}
           >
-            <div className="h-full" style={{ overflow: "scroll" }} ref={scrollRef}>
+            <div
+              className="h-full"
+              style={{ overflow: "scroll" }}
+              ref={scrollRef}
+            >
               <div className="h-full flex justify-center items-center mb-4">
                 <div className="p-4 bg-gray-200 rounded-md text-center">
                   <div className="py-2">
@@ -168,33 +183,41 @@ export const ChatBox = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col mt-5 h-full">
-                {isMessage &&
-                  isMessage.map((item, index) => {
-                    return item?.messages?.map((msg, subIndex) => {
-                      const msgTime = formatDate(msg?.timestamp);
-                      return (
-                        <div
-                          className="flex justify-start mb-4"
-                          key={`${index}-${subIndex}`}
-                        >
-                          <div className="bg-green-400 h-10 w-10 rounded-full flex items-center justify-center px-1">
-                            <SmartToyIcon />
-                          </div>
-                          <div className="mr-2 px-4 bg-gray-400  mx-3 text-white flex-col">
-                            <div className="flex items-center">
-                              <p className="text-md py-1 text-sm">
-                                {msg?.sender?.name}
-                              </p>
-                              <span className="text-sm px-2">{msgTime}</span>
+              {id && (
+                <div className="flex flex-col mt-5 h-full">
+                  {isMessage &&
+                    isMessage.map((item, index) => {
+                      return item?.messages?.map((msg, subIndex) => {
+                        const msgTime = formatDate(msg?.timestamp);
+                        return (
+                          <div
+                            className="flex justify-start mb-4"
+                            key={`${index}-${subIndex}`}
+                          >
+                            <div className="bg-green-400 h-10 w-10 rounded-full flex items-center justify-center px-1">
+                              <SmartToyIcon />
                             </div>
-                            <p className="text-sm pb-1">{msg?.content}</p>
+                            <div className="mr-2 px-4 bg-gray-400  mx-3 text-white flex-col">
+                              <div className="flex items-center">
+                                <p className="text-md py-1 text-sm">
+                                  {msg?.sender?.name}
+                                </p>
+                                <span className="text-sm px-2">{msgTime}</span>
+                              </div>
+                              <p className="text-sm pb-1">{msg?.content}</p>
+                            </div>
                           </div>
-                        </div>
-                      );
-                    });
-                  })}
-              </div>
+                        );
+                      });
+                    })}
+                </div>
+              )}
+
+              {!id && isError && (
+                <h1 className="text-red-800 w-full bg-red-200 p-2 text-center rounded-xl transition duration-200">
+                  {isError}
+                </h1>
+              )}
             </div>
             <div ref={emojiPickerRef} className="py-5">
               <div className="w-full flex justify-end">
