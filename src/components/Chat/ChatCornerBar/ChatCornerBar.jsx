@@ -14,13 +14,22 @@ export const ChatCornerBar = () => {
 
     socket.on("group-member-list", (data) => {
       setIsMembers(data);
-      console.log(data, "member list");
     });
 
     return () => {
       socket.off("group-member-list");
     };
   }, [id]);
+
+  useEffect(() => {
+    socket.on("userDisconnected", (data) => {
+        console.log(data, 'userDisconnected')
+    });
+
+    return () => {
+        socket.off("userDisconnected")
+    }
+  }, [])
 
   return (
     <div className="w-2/5 border-l-2 px-5">

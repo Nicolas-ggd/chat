@@ -19,7 +19,6 @@ export const ChatBox = () => {
   const [isValue, setIsValue] = useState("");
   const [isMessage, setIsMessage] = useState([]);
   const [isEmoji, setIsEmoji] = useState(false);
-  const [emojiValue, setEmojiValue] = useState("");
   const userName = useSelector((state) => state.user.name);
   const userId = useSelector((state) => state.user.userId);
   const { id } = useParams();
@@ -106,7 +105,7 @@ export const ChatBox = () => {
     };
 
     getConversationMessages();
-  }, []);
+  }, [id]);
 
   const formatDate = (time) => {
     const date = new Date(time);
@@ -127,7 +126,7 @@ export const ChatBox = () => {
 
   const handleOutsideClick = (e) => {
     if (emojiPickerRef.current && !emojiPickerRef.current.contains(e.target)) {
-      toggleEmoji();
+      setIsEmoji(false);
     }
   };
 
@@ -147,7 +146,7 @@ export const ChatBox = () => {
             className="w-full px-5 flex flex-col justify-between flex"
             style={{ height: "90vh" }}
           >
-            <div style={{ overflow: "scroll" }} ref={scrollRef}>
+            <div className="h-full" style={{ overflow: "scroll" }} ref={scrollRef}>
               <div className="h-full flex justify-center items-center mb-4">
                 <div className="p-4 bg-gray-200 rounded-md text-center">
                   <div className="py-2">
