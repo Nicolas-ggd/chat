@@ -6,6 +6,7 @@ import axios from "axios";
 
 import { ChatSettings } from "../ChatSettings/ChatSettings";
 import { InviteModal } from "../ChatInviteModal/InviteModal";
+import { ChatFriendsModal } from "../ChatFriends/ChatFriendsModal";
 
 import AddIcon from "@mui/icons-material/Add";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
@@ -13,12 +14,17 @@ import GroupAddIcon from "@mui/icons-material/GroupAdd";
 export const ChatSideBar = () => {
   const [toggleInviteModal, setToggleInviteModal] = useState(false);
   const [isConversation, setIsConversation] = useState([]);
+  const [toggleFriendsModal, setToggleFriendsModal] = useState(false);
   const selectedChat = useSelector((state) => state.chat.selectedChat);
   const userId = useSelector((state) => state.user.userId);
   const { id } = useParams();
 
   const toggleModal = () => {
     setToggleInviteModal((prevData) => !prevData);
+  };
+
+  const toggleFriends = () => {
+    setToggleFriendsModal((prevData) => !prevData);
   };
 
   useEffect(() => {
@@ -66,7 +72,9 @@ export const ChatSideBar = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-row py-4 px-2 justify-center items-center bg-gray-200 hover:bg-gray-300 transiton duration-300 cursor-pointer dark:bg-gray-800 hover:dark:bg-gray-700">
+            <div
+            onClick={toggleFriends}
+            className="flex flex-row py-4 px-2 justify-center items-center bg-gray-200 hover:bg-gray-300 transiton duration-300 cursor-pointer dark:bg-gray-800 hover:dark:bg-gray-700">
               <div className="px-2">
                 <button className="w-12 h-12 bg-gray-400 rounded-full">
                   <GroupAddIcon className="text-center dark:text-white" />
@@ -106,6 +114,7 @@ export const ChatSideBar = () => {
         </div>
         <ChatSettings />
       </div>
+      {toggleFriendsModal && <ChatFriendsModal toggleModal={toggleFriends} />}
       {toggleInviteModal && <InviteModal toggleModal={toggleModal} />}
     </>
   );
