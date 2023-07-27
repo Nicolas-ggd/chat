@@ -74,7 +74,7 @@ export const ChatFriendsModal = ({ toggleModal }) => {
             <div className="m-auto mt-auto flex w-screen items-center h-full relative max-w-md max-h-full">
               <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <div
-                  className="px-6 py-6 lg:px-8"
+                  className="px-6 py-6 lg:px-8 bg-gray-200 rounded-md"
                   style={{ width: "500px" }}
                   ref={outsideRef}
                 >
@@ -84,7 +84,7 @@ export const ChatFriendsModal = ({ toggleModal }) => {
                         type="text"
                         name="text"
                         id="text"
-                        className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white py-5 text-xl"
+                        className="bg-gray-100 outline-none border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white py-5 text-xl"
                         placeholder="You can search friends with their name"
                         value={isValue}
                         onChange={handleFriendsSearch}
@@ -102,7 +102,7 @@ export const ChatFriendsModal = ({ toggleModal }) => {
                         return (
                           <div
                             key={index}
-                            className="w-full p-3 bg-gray-200 dark:bg-gray-700 rounded-md hover:dark:bg-gray-600 cursor-pointer flex items-center justify-between transition duration-200"
+                            className="w-full p-3 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 rounded-md hover:dark:bg-gray-600 cursor-pointer flex items-center justify-between transition duration-200"
                           >
                             <div className="flex items-center">
                               <div className="bg-green-400 h-8 w-8 rounded-full flex items-center justify-center px-1">
@@ -112,7 +112,7 @@ export const ChatFriendsModal = ({ toggleModal }) => {
                                 # {item?.name}
                               </p>
                             </div>
-                            <div className="hover:dark:bg-green-600 p-1 rounded-md transition duration-200" onClick={() => clickConversation(item)}>
+                            <div className="hover:bg-green-600 hover:dark:bg-green-600 p-1 rounded-md transition duration-200" onClick={() => clickConversation(item)}>
                               <button className="px-2 text-dark dark:text-white">
                                 <ChatIcon className="text-white mx-1" />
                               Message
