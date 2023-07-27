@@ -15,7 +15,6 @@ export const ChatSideBar = () => {
   const [toggleInviteModal, setToggleInviteModal] = useState(false);
   const [isConversation, setIsConversation] = useState([]);
   const [toggleFriendsModal, setToggleFriendsModal] = useState(false);
-  const selectedChat = useSelector((state) => state.chat.selectedChat);
   const userId = useSelector((state) => state.user.userId);
   const { id } = useParams();
 

@@ -28,6 +28,7 @@ export const InviteModal = ({ toggleModal }) => {
     navigate(`/chat/${roomId}`);
     dispatch({ type: "ROOM_ID", roomId: roomId });
     dispatch({ type: "SELECTED_CHAT", selectedChat: roomId });
+    dispatch({ type: "ROOM_TYPE", isPublic: true });
     socket.emit("joinRoom", {
       roomId,
       userData,

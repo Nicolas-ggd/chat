@@ -22,6 +22,8 @@ export const ChatBox = () => {
   const [isError, setIsError] = useState("");
   const userName = useSelector((state) => state.user.name);
   const userId = useSelector((state) => state.user.userId);
+  const isPublic = useSelector((state) => state.chat.isPublic);
+  console.log(isPublic)
   const { id } = useParams();
   const scrollRef = useRef(null);
   const emojiPickerRef = useRef();
@@ -44,12 +46,13 @@ export const ChatBox = () => {
 
   const sendMessage = async (e) => {
     e.preventDefault();
-
+    
     if (!id) {
       setIsError("You need to select a chat to start a conversation!");
-
-      setTimeout(() => {
+      
+      return setTimeout(() => {
         setIsError("");
+        setIsValue("");
       }, 3000);
     }
 
@@ -111,6 +114,7 @@ export const ChatBox = () => {
         .get(`http://localhost:8000/chat/get-public-conversation?roomId=${id}`)
         .then((res) => {
           const data = res.data;
+          console.log(data)
           setIsMessage([]);
           setIsMessage(data);
         });

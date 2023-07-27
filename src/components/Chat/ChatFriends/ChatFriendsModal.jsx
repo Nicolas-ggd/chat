@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
 import ChatIcon from "@mui/icons-material/Chat";
@@ -12,6 +12,7 @@ export const ChatFriendsModal = ({ toggleModal }) => {
   const [isShown, setIsShown] = useState(true);
   const userId = useSelector((state) => state.user.userId);
   const outsideRef = useRef();
+  const dispatch = useDispatch();
 
   const handleFriendsSearch = (e) => {
     setIsValue(e.target.value);
@@ -57,6 +58,7 @@ export const ChatFriendsModal = ({ toggleModal }) => {
   }, [onClickOutside]);
 
   const clickConversation = () => {
+    dispatch({ type: "ROOM_TYPE", isPublic: false });
     setIsShown(false)
     toggleModal();
   };
@@ -117,7 +119,7 @@ export const ChatFriendsModal = ({ toggleModal }) => {
                             </div>
                             <div className="hover:bg-green-600 hover:dark:bg-green-600 p-1 rounded-md transition duration-200" onClick={() => clickConversation(item)}>
                               <button className="px-2 text-dark dark:text-white">
-                                <ChatIcon className="text-white mx-1" />
+                                <ChatIcon className="text-dark dark:text-white mx-1" />
                               Message
                               </button>
                             </div>
