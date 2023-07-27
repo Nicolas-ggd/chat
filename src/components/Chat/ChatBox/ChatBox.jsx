@@ -47,7 +47,7 @@ export const ChatBox = () => {
 
     if (!id) {
       setIsError("You need to select a chat to start a conversation!");
-    
+
       setTimeout(() => {
         setIsError("");
       }, 3000);
@@ -65,6 +65,7 @@ export const ChatBox = () => {
       })
       .then((res) => {
         const data = res.data;
+        console.log(data, 'new messages')
         socket.emit("new-message", data);
         scrollToBottom();
       });
@@ -197,7 +198,7 @@ export const ChatBox = () => {
                             <div className="bg-green-400 h-10 w-10 rounded-full flex items-center justify-center px-1">
                               <SmartToyIcon />
                             </div>
-                            <div className="mr-2 px-4 bg-gray-400  mx-3 text-white flex-col">
+                            <div className="mr-2 px-4 bg-gray-400 mx-3 text-white flex-col">
                               <div className="flex items-center">
                                 <p className="text-md py-1 text-sm">
                                   {msg?.sender?.name}

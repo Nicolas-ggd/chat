@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
+
+import axios from "axios";
 
 import { ChatSettings } from "../ChatSettings/ChatSettings";
 import { InviteModal } from "../ChatInviteModal/InviteModal";
@@ -9,12 +11,31 @@ import AddIcon from "@mui/icons-material/Add";
 
 export const ChatSideBar = () => {
   const [toggleInviteModal, setToggleInviteModal] = useState(false);
+  const [isConversation, setIsConversation] = useState([]);
   const selectedChat = useSelector((state) => state.chat.selectedChat);
+  console.log(selectedChat, 'selected chat')
+  const userId = useSelector((state) => state.user.userId);
   const { id } = useParams();
 
   const toggleModal = () => {
     setToggleInviteModal((prevData) => !prevData);
   };
+
+  useEffect(() => {
+    const getUserAllConversations = async () => {
+      await axios
+        .get(
+          `http://localhost:8000/chat/get-user-conversation?userId=${userId}`
+        )
+        .then((res) => {
+          const data = res.data;
+          setIsConversation(data);
+          console.log(data);
+        });
+    };
+
+    getUserAllConversations();
+  }, []);
 
   return (
     <>
@@ -38,24 +59,35 @@ export const ChatSideBar = () => {
                 </button>
               </div>
               <div className="w-full">
-                <div className="text-lg font-semibold dark:text-white">Join a room</div>
+                <div className="text-lg font-semibold dark:text-white">
+                  Join a room
+                </div>
               </div>
             </div>
-            {id && (
-              <Link
-                to={`/chat/${selectedChat}`}
-                className="dark:bg-gray-800 hover:dark:bg-gray-700 bg-gray-200 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
-              >
-                <div className="w-1/4">
-                  <button className="dark:bg-gray-600 w-12 h-12 bg-gray-400 rounded-full dark:text-white transition duration-300">
-                    {selectedChat.at(0)}
-                  </button>
-                </div>
-                <div className="w-full">
-                  <div className="text-lg font-semibold dark:text-white">{selectedChat}</div>
-                </div>
-              </Link>
-            )}
+            {id &&
+              isConversation &&
+              isConversation
+              ?.filter(item => item !== null)
+              ?.map((item, index) => {
+                return (
+                  <Link
+                    key={index}
+                    to={`/chat/${item}`}
+                    className="dark:bg-gray-800 hover:dark:bg-gray-700 bg-gray-200 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
+                  >
+                    <div className="w-1/4">
+                      <button className="dark:bg-gray-600 w-12 h-12 bg-gray-400 rounded-full dark:text-white transition duration-300">
+                        {item[0]}
+                      </button>
+                    </div>
+                    <div className="w-full">
+                      <div className="text-lg font-semibold dark:text-white">
+                        {item}
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
           </div>
           <ChatSettings />
         </div>
