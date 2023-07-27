@@ -8,12 +8,12 @@ import { ChatSettings } from "../ChatSettings/ChatSettings";
 import { InviteModal } from "../ChatInviteModal/InviteModal";
 
 import AddIcon from "@mui/icons-material/Add";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
 export const ChatSideBar = () => {
   const [toggleInviteModal, setToggleInviteModal] = useState(false);
   const [isConversation, setIsConversation] = useState([]);
   const selectedChat = useSelector((state) => state.chat.selectedChat);
-  console.log(selectedChat, 'selected chat')
   const userId = useSelector((state) => state.user.userId);
   const { id } = useParams();
 
@@ -30,7 +30,6 @@ export const ChatSideBar = () => {
         .then((res) => {
           const data = res.data;
           setIsConversation(data);
-          console.log(data);
         });
     };
 
@@ -47,50 +46,65 @@ export const ChatSideBar = () => {
             className="dark:text-white py-2 px-2 border-2 border-gray-200 dark:border-gray-800 rounded-2xl w-full dark:bg-gray-800 transition duration-300"
           />
         </div>
-        <div className="flex h-full w-full flex-col justify-between">
+        <div
+          className="flex h-full w-full flex-col justify-between"
+          style={{ overflow: "scroll" }}
+        >
           <div>
             <div
               onClick={toggleModal}
               className="flex flex-row py-4 px-2 justify-center items-center bg-gray-200 hover:bg-gray-300 transiton duration-300 cursor-pointer dark:bg-gray-800 hover:dark:bg-gray-700"
             >
-              <div className="w-1/4">
+              <div className="px-2">
                 <button className="w-12 h-12 bg-gray-400 rounded-full">
                   <AddIcon className="text-center dark:text-white" />
                 </button>
               </div>
-              <div className="w-full">
+              <div className="w-full px-2">
                 <div className="text-lg font-semibold dark:text-white">
                   Join a room
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-row py-4 px-2 justify-center items-center bg-gray-200 hover:bg-gray-300 transiton duration-300 cursor-pointer dark:bg-gray-800 hover:dark:bg-gray-700">
+              <div className="px-2">
+                <button className="w-12 h-12 bg-gray-400 rounded-full">
+                  <GroupAddIcon className="text-center dark:text-white" />
+                </button>
+              </div>
+              <div className="w-full px-2">
+                <div className="text-lg font-semibold dark:text-white">
+                  Add friends
                 </div>
               </div>
             </div>
             {id &&
               isConversation &&
               isConversation
-              ?.filter(item => item !== null)
-              ?.map((item, index) => {
-                return (
-                  <Link
-                    key={index}
-                    to={`/chat/${item}`}
-                    className="dark:bg-gray-800 hover:dark:bg-gray-700 bg-gray-200 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
-                  >
-                    <div className="w-1/4">
-                      <button className="dark:bg-gray-600 w-12 h-12 bg-gray-400 rounded-full dark:text-white transition duration-300">
-                        {item[0]}
-                      </button>
-                    </div>
-                    <div className="w-full">
-                      <div className="text-lg font-semibold dark:text-white">
-                        {item}
+                ?.filter((item) => item !== null)
+                ?.map((item, index) => {
+                  return (
+                    <Link
+                      key={index}
+                      to={`/chat/${item}`}
+                      className="dark:bg-gray-800 hover:dark:bg-gray-700 bg-gray-200 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
+                    >
+                      <div className="px-2">
+                        <button className="dark:bg-green-600 w-12 h-12 bg-green-400 rounded-full dark:text-white transition duration-300">
+                          {item[0]}
+                        </button>
                       </div>
-                    </div>
-                  </Link>
-                );
-              })}
+                      <div className="w-full px-2">
+                        <div className="text-lg font-semibold dark:text-white">
+                          {item}
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
           </div>
-          <ChatSettings />
         </div>
+        <ChatSettings />
       </div>
       {toggleInviteModal && <InviteModal toggleModal={toggleModal} />}
     </>

@@ -62,6 +62,7 @@ export const ChatBox = () => {
           room: id,
         },
         isPublic: true,
+        createdBy: userId
       })
       .then((res) => {
         const data = res.data;
