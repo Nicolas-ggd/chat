@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
@@ -17,7 +18,6 @@ export const ChatFriendsModal = ({ toggleModal }) => {
   };
 
   useEffect(() => {
-    console.log(isValue);
     const searchFriends = async () => {
       try {
         if (isValue.trim() === "") {
@@ -56,8 +56,9 @@ export const ChatFriendsModal = ({ toggleModal }) => {
     };
   }, [onClickOutside]);
 
-  const clickConversation = (item) => {
-    console.log(item, "item");
+  const clickConversation = () => {
+    setIsShown(false)
+    toggleModal();
   };
 
   return (
@@ -74,7 +75,7 @@ export const ChatFriendsModal = ({ toggleModal }) => {
             <div className="m-auto mt-auto flex w-screen items-center h-full relative max-w-md max-h-full">
               <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <div
-                  className="px-6 py-6 lg:px-8 bg-gray-200 rounded-md"
+                  className="px-6 py-6 lg:px-8 bg-gray-200 dark:bg-gray-700 rounded-md"
                   style={{ width: "500px" }}
                   ref={outsideRef}
                 >
@@ -100,7 +101,9 @@ export const ChatFriendsModal = ({ toggleModal }) => {
                       isSearch?.length > 0 &&
                       isSearch?.map((item, index) => {
                         return (
-                          <div
+                          <Link
+                            to={`/chat/${item?._id}`}
+                            onClick={clickConversation}
                             key={index}
                             className="w-full p-3 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 rounded-md hover:dark:bg-gray-600 cursor-pointer flex items-center justify-between transition duration-200"
                           >
@@ -118,7 +121,7 @@ export const ChatFriendsModal = ({ toggleModal }) => {
                               Message
                               </button>
                             </div>
-                          </div>
+                          </Link>
                         );
                       })}
                   </div>
