@@ -23,7 +23,6 @@ export const ChatBox = () => {
   const userName = useSelector((state) => state.user.name);
   const userId = useSelector((state) => state.user.userId);
   const isPublic = useSelector((state) => state.chat.isPublic);
-  console.log(isPublic)
   const { id } = useParams();
   const scrollRef = useRef(null);
   const emojiPickerRef = useRef();
@@ -46,33 +45,55 @@ export const ChatBox = () => {
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    
+
     if (!id) {
       setIsError("You need to select a chat to start a conversation!");
-      
+
       return setTimeout(() => {
         setIsError("");
         setIsValue("");
       }, 3000);
     }
 
-    await axios
-      .post("http://localhost:8000/chat/create-conversation", {
-        participants: [userId],
-        messages: {
-          sender: userId,
-          content: isValue,
-          room: id,
-        },
-        isPublic: true,
-        createdBy: userId
-      })
-      .then((res) => {
-        const data = res.data;
-        console.log(data, 'new messages')
-        socket.emit("new-message", data);
-        scrollToBottom();
-      });
+    if (isPublic) {
+      await axios
+        .post("http://localhost:8000/chat/create-conversation", {
+          participants: [userId],
+          messages: {
+            sender: userId,
+            content: isValue,
+            room: id,
+          },
+          isPublic: true,
+          createdBy: userId,
+        })
+        .then((res) => {
+          const data = res.data;
+          console.log(data, 'public')
+          socket.emit("new-message", data);
+          scrollToBottom();
+        });
+    } else {
+      await axios
+        .post("http://localhost:8000/chat/create-conversation", {
+          participants: [userId, id],
+          messages: {
+            sender: userId,
+            content: isValue,
+            recipient: id,
+            room: id
+          },
+          isPublic: isPublic,
+          createdBy: userId,
+        })
+        .then((res) => {
+          const data = res.data;
+          console.log(data, 'private')
+
+          socket.emit("new-message", data);
+          scrollToBottom();
+        });
+    }
 
     setIsValue("");
   };
@@ -114,7 +135,7 @@ export const ChatBox = () => {
         .get(`http://localhost:8000/chat/get-public-conversation?roomId=${id}`)
         .then((res) => {
           const data = res.data;
-          console.log(data)
+          console.log(data);
           setIsMessage([]);
           setIsMessage(data);
         });

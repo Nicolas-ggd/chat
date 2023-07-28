@@ -72,8 +72,9 @@ export const ChatSideBar = () => {
               </div>
             </div>
             <div
-            onClick={toggleFriends}
-            className="flex flex-row py-4 px-2 justify-center items-center bg-gray-200 hover:bg-gray-300 transiton duration-300 cursor-pointer dark:bg-gray-800 hover:dark:bg-gray-700">
+              onClick={toggleFriends}
+              className="flex flex-row py-4 px-2 justify-center items-center bg-gray-200 hover:bg-gray-300 transiton duration-300 cursor-pointer dark:bg-gray-800 hover:dark:bg-gray-700"
+            >
               <div className="px-2">
                 <button className="w-12 h-12 bg-gray-400 rounded-full">
                   <GroupAddIcon className="text-center dark:text-white" />
@@ -85,8 +86,7 @@ export const ChatSideBar = () => {
                 </div>
               </div>
             </div>
-            {id &&
-              isConversation &&
+            {isConversation &&
               isConversation
                 ?.filter((item) => item !== null)
                 ?.map((item, index) => {
