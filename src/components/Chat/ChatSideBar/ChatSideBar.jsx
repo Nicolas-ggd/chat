@@ -86,29 +86,53 @@ export const ChatSideBar = () => {
                 </div>
               </div>
             </div>
-            {isConversation &&
-              isConversation
-                ?.filter((item) => item !== null)
-                ?.map((item, index) => {
-                  return (
-                    <Link
-                      key={index}
-                      to={`/chat/${item}`}
-                      className="dark:bg-gray-800 hover:dark:bg-gray-700 bg-gray-200 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
-                    >
-                      <div className="px-2">
-                        <button className="dark:bg-green-600 w-12 h-12 bg-green-400 rounded-full dark:text-white transition duration-300">
-                          {item[0]}
-                        </button>
-                      </div>
-                      <div className="w-full px-2">
-                        <div className="text-lg font-semibold dark:text-white">
-                          {item}
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
+            {isConversation
+             ?.filter((item) => item !== null)
+             ?.map((item, index) => (
+              <Link
+                key={index}
+                to={`/chat/${item}`}
+                className="dark:bg-gray-800 hover:dark:bg-gray-700 bg-gray-200 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
+              >
+                <div
+                  className="w-full flex items-center"
+                  style={{ overflow: "hidden" }}
+                >
+                  <div className="px-2">
+                    <button className="dark:bg-green-600 w-12 h-12 bg-green-400 rounded-full dark:text-white transition duration-300">
+                      {item[0]}
+                    </button>
+                  </div>
+                  <div className="w-full px-2">
+                    <div className="text-lg font-semibold dark:text-white">
+                      {item}
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+            {id && !isConversation?.includes(id) && (
+              <Link
+                to={`/chat/${id}`}
+                className="dark:bg-gray-800 hover:dark:bg-gray-700 bg-gray-200 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
+              >
+                <div
+                  className="w-full flex items-center"
+                  style={{ overflow: "hidden" }}
+                >
+                  <div className="px-2">
+                    <button className="dark:bg-green-600 w-12 h-12 bg-green-400 rounded-full dark:text-white transition duration-300">
+                      {id[0]}
+                    </button>
+                  </div>
+                  <div className="w-full px-2">
+                    <div className="text-lg font-semibold dark:text-white">
+                      {id}
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            )}
           </div>
         </div>
         <ChatSettings />
