@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
 import axios from "axios";
@@ -17,6 +17,7 @@ export const ChatSideBar = () => {
   const [toggleFriendsModal, setToggleFriendsModal] = useState(false);
   const userId = useSelector((state) => state.user.userId);
   const { id } = useParams();
+  const dispatch = useDispatch();
 
   const toggleModal = () => {
     setToggleInviteModal((prevData) => !prevData);
@@ -25,6 +26,12 @@ export const ChatSideBar = () => {
   const toggleFriends = () => {
     setToggleFriendsModal((prevData) => !prevData);
   };
+
+  const conversationDetails = (item) => {
+    if(item?.length !== 24) {
+      dispatch({ type: "ROOM_TYPE", isPublic: true });
+    }
+  }; 
 
   useEffect(() => {
     const getUserAllConversations = async () => {
@@ -91,6 +98,7 @@ export const ChatSideBar = () => {
              ?.map((item, index) => (
               <Link
                 key={index}
+                onClick={() => conversationDetails(item)}
                 to={`/chat/${item}`}
                 className="dark:bg-gray-800 hover:dark:bg-gray-700 bg-gray-200 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
               >

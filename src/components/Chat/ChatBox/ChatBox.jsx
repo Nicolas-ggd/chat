@@ -83,7 +83,7 @@ export const ChatBox = () => {
             recipient: id,
             room: id
           },
-          isPublic: isPublic,
+          isPublic: false,
           createdBy: userId,
         })
         .then((res) => {
