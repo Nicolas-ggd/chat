@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const generateRoomId = () => {
   return Math.random().toString(36).substring(2, 10);
@@ -7,7 +7,6 @@ const generateRoomId = () => {
 
 export const RoomModal = ({ toggleRoom }) => {
   const userName = useSelector((state) => state.user.name);
-  const dispatch = useDispatch();
   const inputRef = useRef(null);
   const [roomId, setRoomId] = useState(() => generateRoomId());
   const [isClicked, setIsClicked] = useState(false);

@@ -60,16 +60,20 @@ export const ChatBox = () => {
         .post("http://localhost:8000/chat/create-conversation", {
           participants: [userId],
           messages: {
-            sender: userId,
+            sender: {
+              _id: userId,
+              name: userName,
+            },
             content: isValue,
             room: id,
+            timestamp: Date.now(),
           },
           isPublic: true,
           createdBy: userId,
         })
         .then((res) => {
           const data = res.data;
-          console.log(data, 'public')
+          console.log(data);
           socket.emit("new-message", data);
           scrollToBottom();
         });
@@ -78,18 +82,21 @@ export const ChatBox = () => {
         .post("http://localhost:8000/chat/create-conversation", {
           participants: [userId, id],
           messages: {
-            sender: userId,
+            sender: {
+              _id: userId,
+              name: userName,
+            },
             content: isValue,
             recipient: id,
-            room: id
+            room: id,
+            timestamp: Date.now(),
           },
           isPublic: false,
           createdBy: userId,
         })
         .then((res) => {
           const data = res.data;
-          console.log(data, 'private')
-
+          console.log(data);
           socket.emit("new-message", data);
           scrollToBottom();
         });
@@ -135,7 +142,6 @@ export const ChatBox = () => {
         .get(`http://localhost:8000/chat/get-public-conversation?roomId=${id}`)
         .then((res) => {
           const data = res.data;
-          console.log(data);
           setIsMessage([]);
           setIsMessage(data);
         });

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
 import axios from "axios";
+import { socket } from "../../../api/socket";
 
 import { ChatSettings } from "../ChatSettings/ChatSettings";
 import { InviteModal } from "../ChatInviteModal/InviteModal";
@@ -48,6 +49,16 @@ export const ChatSideBar = () => {
     getUserAllConversations();
   }, []);
 
+  useEffect(() => {
+    socket.on("new-conversation", (data) => {
+      console.log(data, 'new conversation');
+    });
+
+    return () => {
+      socket.off("new-conversation");
+    };
+  }, []);
+
   return (
     <>
       <div className="flex flex-col w-1/5 overflow-y-auto dark:bg-gray-900 bg-gray-100 transition duration-300">
@@ -89,7 +100,7 @@ export const ChatSideBar = () => {
               </div>
               <div className="w-full px-2">
                 <div className="text-lg font-semibold dark:text-white">
-                  Add friends
+                  Search friends
                 </div>
               </div>
             </div>
