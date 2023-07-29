@@ -23,6 +23,7 @@ export const ChatBox = () => {
   const userName = useSelector((state) => state.user.name);
   const userId = useSelector((state) => state.user.userId);
   const isPublic = useSelector((state) => state.chat.isPublic);
+  const recipient = useSelector((state) => state.chat.recipient);
   const { id } = useParams();
   const scrollRef = useRef(null);
   const emojiPickerRef = useRef();
@@ -47,63 +48,83 @@ export const ChatBox = () => {
     e.preventDefault();
 
     if (!id) {
-      setIsError("You need to select a chat to start a conversation!");
+      setIsError("You need to select chat to start conversation");
 
       return setTimeout(() => {
         setIsError("");
         setIsValue("");
-      }, 3000);
+      }, 2000);
     }
 
+    let data = {
+      participants: [userId],
+      isPublic: isPublic,
+      createdBy: userId,
+      room: id,
+      messages: {
+        sender: {
+          _id: userId,
+          name: userName,
+        },
+        recipient: recipient,
+        content: isValue,
+        seen: false,
+        timestamp: Date.now(),
+      },
+    };
+
     if (isPublic) {
+      delete data.messages.recipient;
+    }
+
+    try {
       await axios
-        .post("http://localhost:8000/chat/create-conversation", {
-          participants: [userId],
-          messages: {
-            sender: {
-              _id: userId,
-              name: userName,
-            },
-            content: isValue,
-            room: id,
-            timestamp: Date.now(),
-          },
-          isPublic: true,
-          createdBy: userId,
-        })
+        .post("http://localhost:8000/chat/create-conversation", data)
         .then((res) => {
           const data = res.data;
-          console.log(data);
-          socket.emit("new-message", data);
-          scrollToBottom();
+          console.log(data, 'orjer')
+          socket.emit("new-messages", data);
         });
-    } else {
-      await axios
-        .post("http://localhost:8000/chat/create-conversation", {
-          participants: [userId, id],
-          messages: {
-            sender: {
-              _id: userId,
-              name: userName,
-            },
-            content: isValue,
-            recipient: id,
-            room: id,
-            timestamp: Date.now(),
-          },
-          isPublic: false,
-          createdBy: userId,
-        })
-        .then((res) => {
-          const data = res.data;
-          console.log(data);
-          socket.emit("new-message", data);
-          scrollToBottom();
-        });
+    } catch (err) {
+      console.log(err);
+      throw err;
     }
 
     setIsValue("");
   };
+
+  useEffect(() => {
+    const convMessages = async () => {
+      try {
+        await axios
+          .get(
+            `http://localhost:8000/chat/get-conversation-messages?roomId=${id}`
+          )
+          .then((res) => {
+            const data = res.data;
+            setIsMessage([data]);
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    convMessages();
+
+    socket.on("new-messages-received", (data) => {
+      setIsMessage((prevData) => {
+        if (prevData.length === 0) {
+          return [{ messages: [data] }];
+        } else {
+          return [{ ...prevData[0], messages: [...prevData[0].messages, data] }];
+        }
+      });
+    });
+  
+    return () => {
+      socket.off("new-messages-received");
+    };
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
@@ -114,41 +135,6 @@ export const ChatBox = () => {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   };
-
-  useEffect(() => {
-    socket.on("new-message-received", (data) => {
-      setIsMessage((prevData) => {
-        // If prevData is an empty array, return a new object with messages array containing the new message
-        if (prevData.length === 0) {
-          console.log(data, "data");
-          return [{ messages: [data] }];
-        } else {
-          // If prevData contains messages, append the new message to the messages array
-          return [
-            { ...prevData[0], messages: [...prevData[0].messages, data] },
-          ];
-        }
-      });
-    });
-
-    return () => {
-      socket.off("new-message-received");
-    };
-  }, []);
-
-  useEffect(() => {
-    const getConversationMessages = async () => {
-      await axios
-        .get(`http://localhost:8000/chat/get-public-conversation?roomId=${id}`)
-        .then((res) => {
-          const data = res.data;
-          setIsMessage([]);
-          setIsMessage(data);
-        });
-    };
-
-    getConversationMessages();
-  }, [id]);
 
   const formatDate = (time) => {
     const date = new Date(time);
@@ -220,6 +206,7 @@ export const ChatBox = () => {
                 <div className="flex flex-col mt-5 h-full">
                   {isMessage &&
                     isMessage.map((item, index) => {
+                      console.log(item);
                       return item?.messages?.map((msg, subIndex) => {
                         const msgTime = formatDate(msg?.timestamp);
                         return (

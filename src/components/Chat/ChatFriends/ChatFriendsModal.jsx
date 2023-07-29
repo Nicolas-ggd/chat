@@ -6,10 +6,15 @@ import axios from "axios";
 import ChatIcon from "@mui/icons-material/Chat";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 
+const generateRoomId = () => {
+  return Math.floor(Math.random() * 100000000 * 10000);
+};
+
 export const ChatFriendsModal = ({ toggleModal }) => {
   const [isValue, setIsValue] = useState("");
   const [isSearch, setIsSearch] = useState([]);
   const [isShown, setIsShown] = useState(true);
+  const [roomId, setRoomId] = useState(() => generateRoomId());
   const userId = useSelector((state) => state.user.userId);
   const outsideRef = useRef();
   const dispatch = useDispatch();
@@ -57,8 +62,9 @@ export const ChatFriendsModal = ({ toggleModal }) => {
     };
   }, [onClickOutside]);
 
-  const clickConversation = () => {
+  const clickConversation = (item) => {
     dispatch({ type: "ROOM_TYPE", isPublic: false });
+    dispatch({ type: "RECIPIENT", recipient: item?._id })
     setIsShown(false)
     toggleModal();
   };
@@ -104,8 +110,8 @@ export const ChatFriendsModal = ({ toggleModal }) => {
                       isSearch?.map((item, index) => {
                         return (
                           <Link
-                            to={`/chat/${item?._id}`}
-                            onClick={clickConversation}
+                            to={`/chat/${roomId}`}
+                            onClick={() => clickConversation(item)}
                             key={index}
                             className="w-full p-3 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 rounded-md hover:dark:bg-gray-600 cursor-pointer flex items-center justify-between transition duration-200"
                           >

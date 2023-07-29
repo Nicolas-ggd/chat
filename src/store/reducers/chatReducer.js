@@ -1,8 +1,8 @@
 const initialState = {
     isPublic: false,
     roomId: '',
-    chatMessages: [],
-    selectedChat: ''
+    selectedChat: '',
+    recipient: '',
 };
 
 export const chatReducer = (state = initialState, action) => {
@@ -20,17 +20,17 @@ export const chatReducer = (state = initialState, action) => {
         }
     }
 
-    if (action.type === "CHAT_MESSAGE") {
-        return {
-            ...state,
-            chatMessages: action.chatMessages
-        }
-    }
-
     if (action.type === "SELECTED_CHAT") {
         return {
             ...state,
             selectedChat: action.selectedChat
+        }
+    }
+
+    if (action.type === "RECIPIENT") {
+        return {
+            ...state,
+            recipient: action.recipient
         }
     }
 

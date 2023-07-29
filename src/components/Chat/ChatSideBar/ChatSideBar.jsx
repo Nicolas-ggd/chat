@@ -42,7 +42,7 @@ export const ChatSideBar = () => {
         )
         .then((res) => {
           const data = res.data;
-          setIsConversation(data);
+          setIsConversation();
         });
     };
 

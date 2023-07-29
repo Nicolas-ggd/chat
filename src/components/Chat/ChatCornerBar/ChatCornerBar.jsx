@@ -10,15 +10,16 @@ export const ChatCornerBar = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    socket.emit("group-members", id);
+    if (id) {
 
-    socket.on("group-member-list", (data) => {
-      setIsMembers(data);
-    });
+      socket.on("group-member-list", (data) => {
+        setIsMembers(data);
+      });
 
-    return () => {
-      socket.off("group-member-list");
-    };
+      return () => {
+        socket.off("group-member-list");
+      };
+    }
   }, [id]);
 
   useEffect(() => {
@@ -36,17 +37,21 @@ export const ChatCornerBar = () => {
       <div className="flex flex-col">
         <h1 className="px-2 py-1 text-start dark:text-white">Group members</h1>
         {isMembers &&
-          isMembers?.map((item, index) => {
+          isMembers?.map((item, index) => { console.log(item)
             return (
               <div className="flex items-center py-2" key={index}>
                 <div className="bg-green-400 h-10 w-10 rounded-full flex items-center justify-center px-1">
                   <SmartToyIcon />
                 </div>
-                <div className="px-2 text-gray-500 dark:text-white transition duration-300">{item?.name}</div>
+                <div className="px-2 text-gray-500 dark:text-white transition duration-300">
+                  {item?.name}
+                </div>
               </div>
             );
           })}
-        {isMembers?.length === 0 && <h1 className="dark:text-white">No members</h1>}
+        {isMembers?.length === 0 && (
+          <h1 className="dark:text-white">No members</h1>
+        )}
       </div>
     </div>
   );
