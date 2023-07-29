@@ -82,7 +82,7 @@ export const ChatBox = () => {
         .post("http://localhost:8000/chat/create-conversation", data)
         .then((res) => {
           const data = res.data;
-          console.log(data, 'orjer')
+          console.log(data, "orjer");
           socket.emit("new-messages", data);
         });
     } catch (err) {
@@ -113,14 +113,16 @@ export const ChatBox = () => {
 
     socket.on("new-messages-received", (data) => {
       setIsMessage((prevData) => {
+        // If prevData is an empty array, return a new array containing the new message
         if (prevData.length === 0) {
-          return [{ messages: [data] }];
+          return [data];
         } else {
-          return [{ ...prevData[0], messages: [...prevData[0].messages, data] }];
+          // If prevData contains messages, append the new message to the messages array
+          return [...prevData, data];
         }
       });
     });
-  
+
     return () => {
       socket.off("new-messages-received");
     };
@@ -206,6 +208,7 @@ export const ChatBox = () => {
                 <div className="flex flex-col mt-5 h-full">
                   {isMessage &&
                     isMessage.map((item, index) => {
+                      console.log(item, "item");
                       console.log(item);
                       return item?.messages?.map((msg, subIndex) => {
                         const msgTime = formatDate(msg?.timestamp);
