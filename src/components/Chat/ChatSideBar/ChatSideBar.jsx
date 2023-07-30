@@ -50,12 +50,12 @@ export const ChatSideBar = () => {
   }, []);
 
   useEffect(() => {
-    socket.on("new-conversation", (data) => {
-      console.log(data, 'new conversation');
+    socket.on("new-conversation-created", (data) => {
+      setIsConversation((prevData) => [...prevData, data]);
     });
 
     return () => {
-      socket.off("new-conversation");
+      socket.off("new-conversation-created");
     };
   }, []);
 

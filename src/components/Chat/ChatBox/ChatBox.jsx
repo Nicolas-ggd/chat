@@ -96,7 +96,9 @@ export const ChatBox = () => {
         .post("http://localhost:8000/chat/create-conversation", data)
         .then((res) => {
           const data = res.data;
+          console.log(data)
           socket.emit("new-messages", data);
+          socket.emit("new-conversation", id);
         });
     } catch (err) {
       console.log(err);

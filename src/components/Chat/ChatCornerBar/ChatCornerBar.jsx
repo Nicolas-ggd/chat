@@ -1,17 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import axios from "axios";
-import { socket } from "../../../api/socket";
 
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import StarIcon from "@mui/icons-material/Star";
 
 export const ChatCornerBar = () => {
   const [isMembers, setIsMembers] = useState([]);
-  const userId = useSelector((state) => state.user.userId);
-  const isPublic = useSelector((state) => state.chat.isPublic);
   const { id } = useParams();
 
   useEffect(() => {
