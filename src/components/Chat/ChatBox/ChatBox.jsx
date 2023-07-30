@@ -46,7 +46,7 @@ export const ChatBox = () => {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    if (!id) {
+    if (!id || id && isValue?.length == 0) {
       setIsError("You need to select chat to start conversation");
 
       return setTimeout(() => {

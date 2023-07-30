@@ -11,6 +11,7 @@ import { ChatFriendsModal } from "../ChatFriends/ChatFriendsModal";
 
 import AddIcon from "@mui/icons-material/Add";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import SearchIcon from "@mui/icons-material/Search";
 
 export const ChatSideBar = () => {
   const [toggleInviteModal, setToggleInviteModal] = useState(false);
@@ -29,10 +30,10 @@ export const ChatSideBar = () => {
   };
 
   const conversationDetails = (item) => {
-    if(item?.length !== 24) {
+    if (item?.length !== 24) {
       dispatch({ type: "ROOM_TYPE", isPublic: true });
     }
-  }; 
+  };
 
   useEffect(() => {
     const getUserAllConversations = async () => {
@@ -62,11 +63,14 @@ export const ChatSideBar = () => {
   return (
     <>
       <div className="flex flex-col w-1/5 overflow-y-auto dark:bg-gray-900 bg-gray-100 transition duration-300">
-        <div className="py-5 my-1 px-2">
+        <div className="py-5 my-1 px-2 flex items-center relative">
+          <div className="absolute px-1 pl-2">
+            <SearchIcon className="dark:text-white" />
+          </div>
           <input
             type="text"
             placeholder="search chatting"
-            className="dark:text-white py-2 px-2 border-2 border-gray-200 dark:border-gray-800 rounded-2xl w-full dark:bg-gray-800 transition duration-300"
+            className="dark:text-white py-2 px-8 border-2 border-gray-200 dark:border-gray-800 rounded-2xl w-full dark:bg-gray-800 transition duration-300"
           />
         </div>
         <div
@@ -105,31 +109,31 @@ export const ChatSideBar = () => {
               </div>
             </div>
             {isConversation
-             ?.filter((item) => item !== null)
-             ?.map((item, index) => (
-              <Link
-                key={index}
-                onClick={() => conversationDetails(item)}
-                to={`/chat/${item?.room}`}
-                className="dark:bg-gray-800 hover:dark:bg-gray-700 bg-gray-200 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
-              >
-                <div
-                  className="w-full flex items-center"
-                  style={{ overflow: "hidden" }}
+              ?.filter((item) => item !== null)
+              ?.map((item, index) => (
+                <Link
+                  key={index}
+                  onClick={() => conversationDetails(item)}
+                  to={`/chat/${item?.room}`}
+                  className="dark:bg-gray-800 hover:dark:bg-gray-700 bg-gray-200 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
                 >
-                  <div className="px-2">
-                    <button className="dark:bg-green-600 w-12 h-12 bg-green-400 rounded-full dark:text-white transition duration-300">
-                      {item?.room[0]}
-                    </button>
-                  </div>
-                  <div className="w-full px-2">
-                    <div className="text-lg font-semibold dark:text-white">
-                      {item?.room}
+                  <div
+                    className="w-full flex items-center"
+                    style={{ overflow: "hidden" }}
+                  >
+                    <div className="px-2">
+                      <button className="dark:bg-green-600 w-12 h-12 bg-green-400 rounded-full dark:text-white transition duration-300">
+                        {item?.room[0]}
+                      </button>
+                    </div>
+                    <div className="w-full px-2">
+                      <div className="text-lg font-semibold dark:text-white">
+                        {item?.room}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
             {/* {id && !isConversation?.includes(id) && isConversation?.length === 0 && (
               <Link
                 to={`/chat/${id}`}
