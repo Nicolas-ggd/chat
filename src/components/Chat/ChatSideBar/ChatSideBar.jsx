@@ -17,6 +17,7 @@ export const ChatSideBar = () => {
   const [toggleInviteModal, setToggleInviteModal] = useState(false);
   const [isConversation, setIsConversation] = useState([]);
   const [toggleFriendsModal, setToggleFriendsModal] = useState(false);
+  const [isValue, setIsValue] = useState("");
   const userId = useSelector((state) => state.user.userId);
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -60,6 +61,26 @@ export const ChatSideBar = () => {
     };
   }, []);
 
+  const isSearchHandle = (e) => {
+    setIsValue(e.target.value);
+  };
+
+  const sendSearchValue = async (e) => {
+    e.preventDefault();
+
+    if (isValue.trim() === "") {
+      setIsConversation([]);
+    }
+
+    await axios
+      .get(`http://localhost:8000/chat/search-conversation?room=${isValue}`)
+      .then((res) => {
+        const data = res.data;
+        setIsConversation(data);
+        console.log(data, "searched conv");
+      });
+  };
+
   return (
     <>
       <div className="flex flex-col w-1/5 overflow-y-auto dark:bg-gray-900 bg-gray-100 transition duration-300">
@@ -67,11 +88,15 @@ export const ChatSideBar = () => {
           <div className="absolute px-1 pl-2">
             <SearchIcon className="dark:text-white" />
           </div>
-          <input
-            type="text"
-            placeholder="search chatting"
-            className="dark:text-white py-2 px-8 border-2 border-gray-200 dark:border-gray-800 rounded-2xl w-full dark:bg-gray-800 transition duration-300"
-          />
+          <form onKeyUp={sendSearchValue} className="w-full">
+            <input
+              type="text"
+              placeholder="search chatting"
+              className="dark:text-white py-2 px-8 border-2 border-gray-200 dark:border-gray-800 rounded-2xl w-full dark:bg-gray-800 transition duration-300"
+              onChange={isSearchHandle}
+              value={isValue}
+            />
+          </form>
         </div>
         <div
           className="flex h-full w-full flex-col justify-between"
