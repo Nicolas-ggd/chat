@@ -27,7 +27,7 @@ export const ChatBox = () => {
   const { id } = useParams();
   const scrollRef = useRef(null);
   const emojiPickerRef = useRef();
-
+  console.log(userName,' userName')
   const toggleRoomModal = () => {
     setToggleRoom((prevData) => !prevData);
   };
@@ -56,25 +56,40 @@ export const ChatBox = () => {
       }, 2000);
     }
 
-    let data = {
-      participants: [userId],
-      isPublic: isPublic,
-      createdBy: userId,
-      room: id,
-      messages: {
-        sender: {
-          _id: userId,
-          name: userName,
-        },
-        recipient: recipient,
-        content: isValue,
-        seen: false,
-        timestamp: Date.now(),
-      },
-    };
-
+    let data;
     if (isPublic) {
-      delete data.messages.recipient;
+      data = {
+        participants: [userId],
+        isPublic: isPublic,
+        createdBy: userId,
+        room: id,
+        messages: {
+          sender: {
+            _id: userId,
+            name: userName,
+          },
+          content: isValue,
+          seen: false,
+          timestamp: Date.now(),
+        },
+      };
+    } else {
+      data = {
+        participants: [userId, recipient],
+        isPublic: isPublic,
+        createdBy: userId,
+        room: id,
+        messages: {
+          sender: {
+            _id: userId,
+            name: userName,
+          },
+          recipient: recipient,
+          content: isValue,
+          seen: false,
+          timestamp: Date.now(),
+        },
+      };
     }
 
     try {
@@ -110,14 +125,15 @@ export const ChatBox = () => {
     };
 
     convMessages();
+  }, [id]);
 
+  useEffect(() => {
     socket.on("new-messages-received", (data) => {
+      console.log(data, 'new message ')
       setIsMessage((prevData) => {
-        // If prevData is an empty array, return a new array containing the new message
         if (prevData.length === 0) {
           return [data];
         } else {
-          // If prevData contains messages, append the new message to the messages array
           return [...prevData, data];
         }
       });
@@ -208,8 +224,6 @@ export const ChatBox = () => {
                 <div className="flex flex-col mt-5 h-full">
                   {isMessage &&
                     isMessage.map((item, index) => {
-                      console.log(item, "item");
-                      console.log(item);
                       return item?.messages?.map((msg, subIndex) => {
                         const msgTime = formatDate(msg?.timestamp);
                         return (
