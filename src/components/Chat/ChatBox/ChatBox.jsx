@@ -27,7 +27,6 @@ export const ChatBox = () => {
   const { id } = useParams();
   const scrollRef = useRef(null);
   const emojiPickerRef = useRef();
-  console.log(userName,' userName')
   const toggleRoomModal = () => {
     setToggleRoom((prevData) => !prevData);
   };
@@ -97,7 +96,6 @@ export const ChatBox = () => {
         .post("http://localhost:8000/chat/create-conversation", data)
         .then((res) => {
           const data = res.data;
-          console.log(data, "orjer");
           socket.emit("new-messages", data);
         });
     } catch (err) {
@@ -129,7 +127,6 @@ export const ChatBox = () => {
 
   useEffect(() => {
     socket.on("new-messages-received", (data) => {
-      console.log(data, 'new message ')
       setIsMessage((prevData) => {
         if (prevData.length === 0) {
           return [data];

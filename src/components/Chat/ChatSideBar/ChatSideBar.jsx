@@ -42,7 +42,6 @@ export const ChatSideBar = () => {
         )
         .then((res) => {
           const data = res.data;
-          console.log(data, 'user')
           setIsConversation(data);
         });
     };
