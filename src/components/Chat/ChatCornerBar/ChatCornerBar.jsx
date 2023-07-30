@@ -11,29 +11,8 @@ import StarIcon from "@mui/icons-material/Star";
 export const ChatCornerBar = () => {
   const [isMembers, setIsMembers] = useState([]);
   const userId = useSelector((state) => state.user.userId);
+  const isPublic = useSelector((state) => state.chat.isPublic);
   const { id } = useParams();
-
-  useEffect(() => {
-    if (id) {
-      socket.on("group-member-list", (data) => {
-        setIsMembers(data);
-      });
-
-      return () => {
-        socket.off("group-member-list");
-      };
-    }
-  }, [id]);
-
-  useEffect(() => {
-    socket.on("userDisconnected", (data) => {
-      console.log(data, "userDisconnected");
-    });
-
-    return () => {
-      socket.off("userDisconnected");
-    };
-  }, []);
 
   useEffect(() => {
     if (id) {
@@ -60,6 +39,7 @@ export const ChatCornerBar = () => {
       <div className="flex flex-col">
         <h1 className="px-2 py-1 text-start dark:text-white">Group members</h1>
         {isMembers &&
+          isMembers[0]?.isPublic &&
           isMembers[0]?.participants?.map((item, index) => {
             const convCreator = isMembers[0]?.createdBy === item?._id;
             return (
