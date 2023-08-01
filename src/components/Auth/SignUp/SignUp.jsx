@@ -295,7 +295,7 @@ export const SignUp = ({ closeSignUp }) => {
             </svg>
             <span className="sr-only">Loading...</span>
             <h2 className="p-4 dark:text-white">
-              A verification link has been send to your email.
+              Registration end succesfuly.
             </h2>
           </div>
         </div>
@@ -305,7 +305,7 @@ export const SignUp = ({ closeSignUp }) => {
           <div className="flex flex-col items-center justify-center h-screen w-screen">
             <CheckCircleOutlineIcon color="success" fontSize="large" />
             <h2 className="p-3 dark:text-white">
-              Please check your email and verify your account.
+              Account created, now you can sign in.
             </h2>
           </div>
         </div>

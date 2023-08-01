@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
-import { socket } from "../../../api/socket";
 import ForumIcon from "@mui/icons-material/Forum";
 
 export const SignIn = ({ closeSignIn }) => {
@@ -16,13 +15,7 @@ export const SignIn = ({ closeSignIn }) => {
     email: "",
     password: "",
   });
-  const [searchVerifyCode] = useSearchParams();
-  const searchParamsCode = searchVerifyCode.get("verifyCode");
   const dispatch = useDispatch();
-
-  const toggleForgotPassword = () => {
-    setIsForgot((prevIsForgot) => !prevIsForgot);
-  };
 
   const submitSignInData = async (event) => {
     if (signInData?.email?.length === 0 || signInData?.password?.length === 0) {
@@ -166,13 +159,6 @@ export const SignIn = ({ closeSignIn }) => {
                       </label>
                     </div>
                   </div>
-                  <Link
-                    onClick={toggleForgotPassword}
-                    to="/reset-password"
-                    className="transition text-sm mb-2 isDarkMode dark:text-white text-gray-900"
-                  >
-                    Forgot password?
-                  </Link>
                 </div>
 
                 <button
