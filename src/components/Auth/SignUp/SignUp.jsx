@@ -295,7 +295,7 @@ export const SignUp = ({ closeSignUp }) => {
             </svg>
             <span className="sr-only">Loading...</span>
             <h2 className="p-4 dark:text-white">
-              Registration end succesfuly.
+              Please wait...
             </h2>
           </div>
         </div>

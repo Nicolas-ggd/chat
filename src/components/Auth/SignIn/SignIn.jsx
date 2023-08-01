@@ -27,7 +27,6 @@ export const SignIn = ({ closeSignIn }) => {
       .post("https://chat-app-node-8ndm.onrender.com/auth", {
         email: signInData.email,
         password: signInData.password,
-        verificationCode: searchParamsCode,
       })
       .then((res) => {
         const data = res.data;
