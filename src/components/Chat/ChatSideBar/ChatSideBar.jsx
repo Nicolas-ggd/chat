@@ -113,7 +113,7 @@ export const ChatSideBar = () => {
           <div>
             <div
               onClick={toggleModal}
-              className="flex flex-row py-4 px-2 justify-center items-center bg-gray-200 hover:bg-gray-300 transiton duration-300 cursor-pointer dark:bg-gray-900 hover:dark:bg-gray-700"
+              className="flex flex-row py-4 px-2 justify-center items-center bg-gray-100 hover:bg-gray-300 transiton duration-300 cursor-pointer dark:bg-gray-900 hover:dark:bg-gray-700"
             >
               <div className="px-2">
                 <button className="w-12 h-12 bg-gray-400 rounded-full">
@@ -128,7 +128,7 @@ export const ChatSideBar = () => {
             </div>
             <div
               onClick={toggleFriends}
-              className="flex flex-row py-4 px-2 justify-center items-center bg-gray-200 hover:bg-gray-300 transiton duration-300 cursor-pointer dark:bg-gray-900 hover:dark:bg-gray-700"
+              className="flex flex-row py-4 px-2 justify-center items-center bg-gray-100 hover:bg-gray-300 transiton duration-300 cursor-pointer dark:bg-gray-900 hover:dark:bg-gray-700"
             >
               <div className="px-2">
                 <button className="w-12 h-12 bg-gray-400 rounded-full">
@@ -148,7 +148,7 @@ export const ChatSideBar = () => {
                   key={index}
                   onClick={() => conversationDetails(item)}
                   to={`/chat/${item?.room}`}
-                  className="dark:bg-gray-900 hover:dark:bg-gray-700 bg-gray-200 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
+                  className="dark:bg-gray-900 hover:dark:bg-gray-700 bg-gray-100 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
                 >
                   <div
                     className="w-full flex items-center"
