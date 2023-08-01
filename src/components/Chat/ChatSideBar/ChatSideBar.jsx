@@ -52,14 +52,20 @@ export const ChatSideBar = () => {
   }, []);
 
   useEffect(() => {
-    socket.on("new-conversation-created", (data) => {
-      setIsConversation((prevData) => [...prevData, data]);
-    });
-
-    return () => {
-      socket.off("new-conversation-created");
+    const handleNewConversationCreated = (data) => {
+      const exists = isConversation.some((conversation) => conversation.room === data.room);
+  
+      if (!exists) {
+        setIsConversation((prevData) => [...prevData, data]);
+      }
     };
-  }, []);
+  
+    socket.on("new-conversation-created", handleNewConversationCreated);
+  
+    return () => {
+      socket.off("new-conversation-created", handleNewConversationCreated);
+    };
+  }, [isConversation]);
 
   const isSearchHandle = (e) => {
     setIsValue(e.target.value);
