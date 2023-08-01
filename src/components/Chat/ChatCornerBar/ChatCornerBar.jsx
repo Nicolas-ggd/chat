@@ -31,7 +31,7 @@ export const ChatCornerBar = () => {
   }, [id]);
 
   return (
-    <div className="w-2/5 px-5 dark:bg-gray-800 bg-gray-100 transition duration-300">
+    <div className="w-2/5 px-5 dark:bg-gray-900 bg-gray-100 transition duration-300 dark:border-l-2 dark:border-gray-800">
       <div className="flex flex-col">
         <h1 className="px-2 py-1 text-start dark:text-white">Group members</h1>
         {isMembers &&

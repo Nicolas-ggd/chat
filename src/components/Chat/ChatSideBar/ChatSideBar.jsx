@@ -53,15 +53,17 @@ export const ChatSideBar = () => {
 
   useEffect(() => {
     const handleNewConversationCreated = (data) => {
-      const exists = isConversation.some((conversation) => conversation.room === data.room);
-  
+      const exists = isConversation.some(
+        (conversation) => conversation.room === data.room
+      );
+
       if (!exists) {
         setIsConversation((prevData) => [...prevData, data]);
       }
     };
-  
+
     socket.on("new-conversation-created", handleNewConversationCreated);
-  
+
     return () => {
       socket.off("new-conversation-created", handleNewConversationCreated);
     };
@@ -89,7 +91,7 @@ export const ChatSideBar = () => {
 
   return (
     <>
-      <div className="flex flex-col w-1/5 overflow-y-auto dark:bg-gray-900 bg-gray-100 transition duration-300">
+      <div className="flex flex-col w-1/5 overflow-y-auto dark:bg-gray-900 bg-gray-100 transition duration-300 dark:border-r-2 dark:border-gray-800">
         <div className="py-5 my-1 px-2 flex items-center relative">
           <div className="absolute px-1 pl-2">
             <SearchIcon className="dark:text-white" />
@@ -111,7 +113,7 @@ export const ChatSideBar = () => {
           <div>
             <div
               onClick={toggleModal}
-              className="flex flex-row py-4 px-2 justify-center items-center bg-gray-200 hover:bg-gray-300 transiton duration-300 cursor-pointer dark:bg-gray-800 hover:dark:bg-gray-700"
+              className="flex flex-row py-4 px-2 justify-center items-center bg-gray-200 hover:bg-gray-300 transiton duration-300 cursor-pointer dark:bg-gray-900 hover:dark:bg-gray-700"
             >
               <div className="px-2">
                 <button className="w-12 h-12 bg-gray-400 rounded-full">
@@ -126,7 +128,7 @@ export const ChatSideBar = () => {
             </div>
             <div
               onClick={toggleFriends}
-              className="flex flex-row py-4 px-2 justify-center items-center bg-gray-200 hover:bg-gray-300 transiton duration-300 cursor-pointer dark:bg-gray-800 hover:dark:bg-gray-700"
+              className="flex flex-row py-4 px-2 justify-center items-center bg-gray-200 hover:bg-gray-300 transiton duration-300 cursor-pointer dark:bg-gray-900 hover:dark:bg-gray-700"
             >
               <div className="px-2">
                 <button className="w-12 h-12 bg-gray-400 rounded-full">
@@ -146,7 +148,7 @@ export const ChatSideBar = () => {
                   key={index}
                   onClick={() => conversationDetails(item)}
                   to={`/chat/${item?.room}`}
-                  className="dark:bg-gray-800 hover:dark:bg-gray-700 bg-gray-200 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
+                  className="dark:bg-gray-900 hover:dark:bg-gray-700 bg-gray-200 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
                 >
                   <div
                     className="w-full flex items-center"
@@ -165,28 +167,6 @@ export const ChatSideBar = () => {
                   </div>
                 </Link>
               ))}
-            {/* {id && !isConversation?.includes(id) && isConversation?.length === 0 && (
-              <Link
-                to={`/chat/${id}`}
-                className="dark:bg-gray-800 hover:dark:bg-gray-700 bg-gray-200 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
-              >
-                <div
-                  className="w-full flex items-center"
-                  style={{ overflow: "hidden" }}
-                >
-                  <div className="px-2">
-                    <button className="dark:bg-green-600 w-12 h-12 bg-green-400 rounded-full dark:text-white transition duration-300">
-                      {id[0]}
-                    </button>
-                  </div>
-                  <div className="w-full px-2">
-                    <div className="text-lg font-semibold dark:text-white">
-                      {id}
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            )} */}
           </div>
         </div>
         <ChatSettings />
