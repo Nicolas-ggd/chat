@@ -16,7 +16,7 @@ export const ChatCornerBar = () => {
         try {
           await axios
             .get(
-              `http://localhost:8000/chat/get-conversation-members?roomId=${id}`
+              `https://chat-app-node-8ndm.onrender.com/chat/get-conversation-members?roomId=${id}`
             )
             .then((res) => {
               const data = res.data;

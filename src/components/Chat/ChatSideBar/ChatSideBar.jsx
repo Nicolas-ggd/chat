@@ -40,7 +40,7 @@ export const ChatSideBar = () => {
     const getUserAllConversations = async () => {
       await axios
         .get(
-          `http://localhost:8000/chat/get-user-conversation?userId=${userId}`
+          `https://chat-app-node-8ndm.onrender.com/chat/get-user-conversation?userId=${userId}`
         )
         .then((res) => {
           const data = res.data;
@@ -81,7 +81,7 @@ export const ChatSideBar = () => {
     }
 
     await axios
-      .get(`http://localhost:8000/chat/search-conversation?room=${isValue}`)
+      .get(`https://chat-app-node-8ndm.onrender.com/chat/search-conversation?room=${isValue}`)
       .then((res) => {
         const data = res.data;
         setIsConversation(data);

@@ -31,7 +31,7 @@ export const SignIn = ({ closeSignIn }) => {
     event.preventDefault();
 
     await axios
-      .post("http://localhost:8000/auth", {
+      .post("https://chat-app-node-8ndm.onrender.com/auth", {
         email: signInData.email,
         password: signInData.password,
         verificationCode: searchParamsCode,

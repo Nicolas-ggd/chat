@@ -36,7 +36,7 @@ export const SignUp = ({ closeSignUp }) => {
     event.preventDefault();
 
     await axios
-      .post("http://localhost:8000/register", {
+      .post("https://chat-app-node-8ndm.onrender.com/register", {
         name: signUpData?.name,
         email: signUpData?.email,
         password: signUpData?.password,

@@ -30,7 +30,7 @@ export const ChatFriendsModal = ({ toggleModal }) => {
           setIsSearch([]);
         } else {
           const res = await axios.get(
-            `http://localhost:8000/user/search-user?value=${isValue}&userId=${userId}`
+            `https://chat-app-node-8ndm.onrender.com/user/search-user?value=${isValue}&userId=${userId}`
           );
           const data = res.data;
           setIsSearch(data);

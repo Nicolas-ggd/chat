@@ -12,7 +12,7 @@ export const LogOut = () => {
 
   const userLogOut = async () => {
     await axios
-      .post("http://localhost:8000/logout", {
+      .post("https://chat-app-node-8ndm.onrender.com/logout", {
         userId: userId,
       })
       .then(() => {

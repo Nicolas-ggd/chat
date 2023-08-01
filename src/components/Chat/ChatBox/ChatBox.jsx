@@ -93,7 +93,7 @@ export const ChatBox = () => {
 
     try {
       await axios
-        .post("http://localhost:8000/chat/create-conversation", data)
+        .post("https://chat-app-node-8ndm.onrender.com/chat/create-conversation", data)
         .then((res) => {
           const data = res.data;
           socket.emit("new-messages", data);
@@ -112,7 +112,7 @@ export const ChatBox = () => {
       try {
         await axios
           .get(
-            `http://localhost:8000/chat/get-conversation-messages?roomId=${id}`
+            `https://chat-app-node-8ndm.onrender.com/chat/get-conversation-messages?roomId=${id}`
           )
           .then((res) => {
             const data = res.data;

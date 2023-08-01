@@ -16,7 +16,7 @@ export const RoomModal = ({ toggleRoom }) => {
     setIsClicked(true);
 
     if (inputRef.current) {
-      const roomUrl = `http://localhost:5173/chat/${roomId}`;
+      const roomUrl = `https://chat-app-node-8ndm.onrender.com/chat/${roomId}`;
       inputRef.current.value = roomUrl;
       inputRef.current.select();
 
@@ -86,7 +86,7 @@ export const RoomModal = ({ toggleRoom }) => {
                       className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                       placeholder="Room id..."
                       ref={inputRef}
-                      value={`http://localhost:5173/chat/${roomId}`}
+                      value={`https://chat-app-node-8ndm.onrender.com/${roomId}`}
                       disabled
                     />
                     {!isClicked && (

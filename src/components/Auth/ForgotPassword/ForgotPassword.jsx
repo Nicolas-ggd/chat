@@ -27,7 +27,7 @@ export const ForgotPassword = ({ toggleForgotPassword }) => {
 
         setIsSend(true);
 
-        await axios.post('http://localhost:8000/reset-password', {
+        await axios.post('https://chat-app-node-8ndm.onrender.com/reset-password', {
             email: resetData?.email
         })
             .then(() => {
@@ -45,7 +45,7 @@ export const ForgotPassword = ({ toggleForgotPassword }) => {
 
         if (searchToken.get("token")) {
             try {
-                await axios.post('http://localhost:8000/reset-password/user-token', {
+                await axios.post('https://chat-app-node-8ndm.onrender.com/reset-password/user-token', {
                     token: searchToken.get("token"),
                     password: newPassword?.password,
                     confirmPassword: newPassword?.confirmPassword,
