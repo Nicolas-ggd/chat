@@ -4,7 +4,6 @@ export const useBackButton = () => {
   useEffect(() => {
     const handleBackButton = (event) => {
       event.preventDefault();
-      callback();
     };
 
     window.addEventListener("beforeunload", handleBackButton);
@@ -12,5 +11,5 @@ export const useBackButton = () => {
     return () => {
       window.removeEventListener("beforeunload", handleBackButton);
     };
-  }, [callback]);
+  }, []);
 };
