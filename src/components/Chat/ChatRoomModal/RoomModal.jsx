@@ -86,7 +86,7 @@ export const RoomModal = ({ toggleRoom }) => {
                       className="bg-gray-50 outline-none border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                       placeholder="Room id..."
                       ref={inputRef}
-                      value={`https://chat-app-node-8ndm.onrender.com/${roomId}`}
+                      value={`https://nicolas-ggd-chat.netlify.app/${roomId}`}
                       disabled
                     />
                     {!isClicked && (
