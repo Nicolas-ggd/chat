@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate, Link, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import ForumIcon from "@mui/icons-material/Forum";
+import { useBackButton } from "../../../utils/BackButton";
 
 export const SignIn = ({ closeSignIn }) => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export const SignIn = ({ closeSignIn }) => {
     password: "",
   });
   const dispatch = useDispatch();
+  const accessToken = localStorage.getItem("access_token");
 
   const submitSignInData = async (event) => {
     if (signInData?.email?.length === 0 || signInData?.password?.length === 0) {
@@ -46,6 +48,13 @@ export const SignIn = ({ closeSignIn }) => {
       });
   };
 
+  const handleBackButton = () => {
+    if (accessToken) {
+      navigate('/chat');
+    }
+  };
+
+  useBackButton(handleBackButton);
   return (
     <div className="w-full h-screen bg-gray-50 dark:bg-gray-900 transition duration-300">
       {!isForgot && (
