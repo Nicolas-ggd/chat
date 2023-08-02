@@ -20,12 +20,12 @@ export const ChatSettings = () => {
       {toggleSettings && (
         <div className="w-full flex flex-col p-3 justify-center items-center">
           <LogOut />
-          <div className="w-full my-1 bg-gray-200 dark:bg-gray-800 dark:text-white p-2 text-center rounded-xl hover:bg-gray-400 transition duration-300 cursor-pointer flex items-center justify-center hover:dark:bg-gray-700">
+          {/* <div className="w-full my-1 bg-gray-200 dark:bg-gray-800 dark:text-white p-2 text-center rounded-xl hover:bg-gray-400 transition duration-300 cursor-pointer flex items-center justify-center hover:dark:bg-gray-700">
             Switch
             <div className="px-2">
               <Switcher />
             </div>
-          </div>
+          </div> */}
         </div>
       )}
       <div

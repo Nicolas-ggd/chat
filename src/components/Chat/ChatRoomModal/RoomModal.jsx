@@ -22,7 +22,6 @@ export const RoomModal = ({ toggleRoom }) => {
 
       try {
         await navigator.clipboard.writeText(roomUrl);
-        console.log("Copied to clipboard:", roomUrl);
       } catch (err) {
         console.error("Failed to copy:", err);
       }
