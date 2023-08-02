@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import ForumIcon from "@mui/icons-material/Forum";
-import { useBackButton } from "../../../utils/BackButton";
+import { useEffect } from "react";
 
 export const SignIn = ({ closeSignIn }) => {
   const navigate = useNavigate();
@@ -48,13 +48,12 @@ export const SignIn = ({ closeSignIn }) => {
       });
   };
 
-  const handleBackButton = () => {
+  useEffect(() => {
     if (accessToken) {
       navigate('/chat');
     }
-  };
+  }, [])
 
-  useBackButton(handleBackButton);
   return (
     <div className="w-full h-screen bg-gray-50 dark:bg-gray-900 transition duration-300">
       {!isForgot && (
