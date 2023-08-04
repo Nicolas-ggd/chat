@@ -46,7 +46,7 @@ export const ChatBox = () => {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    if (!id || id && isValue?.length == 0) {
+    if (!id || (id && isValue?.length == 0)) {
       setIsError("You need to select chat to start conversation");
 
       return setTimeout(() => {
@@ -98,6 +98,7 @@ export const ChatBox = () => {
           const data = res.data;
           socket.emit("new-messages", data);
           socket.emit("new-conversation", id);
+          socket.emit("conversationMembers", id);
         });
     } catch (err) {
       console.log(err);

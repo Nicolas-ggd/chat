@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
+import { socket } from "../../../api/socket";
 import axios from "axios";
 
 import SmartToyIcon from "@mui/icons-material/SmartToy";
@@ -8,6 +10,7 @@ import StarIcon from "@mui/icons-material/Star";
 
 export const ChatCornerBar = () => {
   const [isMembers, setIsMembers] = useState([]);
+  const isPublic = useSelector((state) => state.chat.isPublic);
   const { id } = useParams();
 
   useEffect(() => {
@@ -27,6 +30,20 @@ export const ChatCornerBar = () => {
         }
       };
       convMembers();
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (id && isPublic) {
+      socket.emit("conversationMembers", id);
+    }
+
+    socket.on("conversationMembersList", (data) => {
+      setIsMembers([data])
+    });
+
+    return () => {
+      socket.off("conversationMembersList");
     }
   }, [id]);
 
