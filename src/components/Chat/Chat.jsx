@@ -13,7 +13,7 @@ export const Chat = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    if(id && userData) {
+    if (id && userData) {
       socket.emit("joinRoom", {
         roomId: id,
         userData: userData,
@@ -33,9 +33,7 @@ export const Chat = () => {
           </div>
         </div>
       )}
-      {isLoading && (
-        <ChatLoading />
-      )}
+      {isLoading && <ChatLoading />}
     </>
   );
 };

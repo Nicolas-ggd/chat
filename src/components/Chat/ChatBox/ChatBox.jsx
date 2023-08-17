@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { socket } from "../../../api/socket";
 import EmojiPicker from "emoji-picker-react";
+import { useDebounce } from "../../../hooks/useDebounce";
 
 import { RoomModal } from "../ChatRoomModal/RoomModal";
 import { ChatHeader } from "../ChatHeader/ChatHeader";
@@ -27,6 +28,9 @@ export const ChatBox = () => {
   const { id } = useParams();
   const scrollRef = useRef(null);
   const emojiPickerRef = useRef();
+  const debouncedInputValue = useDebounce(isValue, 1000);
+  const typingQuery = debouncedInputValue !== isValue;
+
   const toggleRoomModal = () => {
     setToggleRoom((prevData) => !prevData);
   };
@@ -233,7 +237,7 @@ export const ChatBox = () => {
                             <div className="bg-green-400 h-10 w-10 rounded-full flex items-center justify-center px-1">
                               <SmartToyIcon />
                             </div>
-                            <div className="mr-2 px-4 bg-gray-400 mx-3 text-white flex-col">
+                            <div className="mr-2 px-4 bg-gray-400 mx-3 rounded-md text-white flex-col">
                               <div className="flex items-center">
                                 <p className="text-md py-1 text-sm">
                                   {msg?.sender?.name}
@@ -248,6 +252,27 @@ export const ChatBox = () => {
                     })}
                 </div>
               )}
+              {/* {typingQuery && (
+                <div className="flex justify-start mb-4">
+                  <div className="bg-green-400 h-10 w-10 rounded-full flex items-center justify-center px-1">
+                    <SmartToyIcon />
+                  </div>
+                  <div className="p-3 rounded-md text-white flex justify-center">
+                    <div
+                      style={{ paddingTop: typingQuery ? "1px" : "" }}
+                      className="bg-gray-400 p-2  w-4 h-4 rounded-full animate-bounce blue-circle animate duration-100"
+                    ></div>
+                    <div
+                      style={{ paddingTop: typingQuery ? "2px" : "" }}
+                      className="bg-gray-400 p-2 w-4 h-4 rounded-full animate-bounce green-circle animate duration-400"
+                    ></div>
+                    <div
+                      style={{ paddingTop: typingQuery ? "3px" : "" }}
+                      className="bg-gray-400 p-2  w-4 h-4 rounded-full animate-bounce red-circle animate duration-600"
+                    ></div>
+                  </div>
+                </div>
+              )} */}
 
               {!id && isError && (
                 <h1 className="text-red-800 w-full bg-red-200 p-2 text-center rounded-xl transition duration-200">

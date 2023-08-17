@@ -141,31 +141,33 @@ export const ChatSideBar = () => {
               </div>
             </div>
             {isConversation
-              ?.filter((item) => item !== null)
-              ?.map((item, index) => (
-                <Link
-                  key={index}
-                  onClick={() => conversationDetails(item)}
-                  to={`/chat/${item?.room}`}
-                  className="dark:bg-gray-900 hover:dark:bg-gray-700 bg-gray-100 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
-                >
-                  <div
-                    className="w-full flex items-center"
-                    style={{ overflow: "hidden" }}
+              ?.filter((item) => item !== null || item !== undefined)
+              ?.map((item, index) => {
+                return (
+                  <Link
+                    key={index}
+                    onClick={() => conversationDetails(item)}
+                    to={`/chat/${item?.room}`}
+                    className="dark:bg-gray-900 hover:dark:bg-gray-700 bg-gray-100 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
                   >
-                    <div className="px-2">
-                      <button className="dark:bg-green-600 w-12 h-12 bg-green-400 rounded-full dark:text-white transition duration-300">
-                        {item?.room[0]}
-                      </button>
-                    </div>
-                    <div className="w-full px-2">
-                      <div className="text-lg font-semibold dark:text-white">
-                        {item?.room}
+                    <div
+                      className="w-full flex items-center"
+                      style={{ overflow: "hidden" }}
+                    >
+                      <div className="px-2">
+                        <button className="dark:bg-green-600 font-bold w-12 h-12 bg-green-400 rounded-full dark:text-white transition duration-300">
+                          {item?.room[0] ? item?.room[0] : id[0]}
+                        </button>
+                      </div>
+                      <div className="w-full px-2">
+                        <div className="text-lg font-semibold dark:text-white">
+                          {item?.room ? item?.room : id}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                );
+              })}
           </div>
         </div>
         <ChatSettings />
