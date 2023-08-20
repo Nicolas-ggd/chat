@@ -81,7 +81,9 @@ export const ChatSideBar = () => {
     }
 
     await axios
-      .get(`https://chat-app-node-8ndm.onrender.com/chat/search-conversation?room=${isValue}`)
+      .get(
+        `https://chat-app-node-8ndm.onrender.com/chat/search-conversation?room=${isValue}`
+      )
       .then((res) => {
         const data = res.data;
         setIsConversation(data);
@@ -141,13 +143,16 @@ export const ChatSideBar = () => {
               </div>
             </div>
             {isConversation
-              ?.filter((item) => item !== null || item !== undefined)
+              ?.filter(
+                (item) =>
+                  item !== null && item !== undefined && item.room !== undefined
+              )
               ?.map((item, index) => {
                 return (
                   <Link
                     key={index}
                     onClick={() => conversationDetails(item)}
-                    to={`/chat/${item?.room}`}
+                    to={`/chat/${item.room}`}
                     className="dark:bg-gray-900 hover:dark:bg-gray-700 bg-gray-100 flex flex-row py-4 px-2 justify-center items-center hover:bg-gray-300 transiton duration-300 cursor-pointer"
                   >
                     <div
@@ -156,12 +161,12 @@ export const ChatSideBar = () => {
                     >
                       <div className="px-2">
                         <button className="dark:bg-green-600 font-bold w-12 h-12 bg-green-400 rounded-full dark:text-white transition duration-300">
-                          {item?.room[0] ? item?.room[0] : id[0]}
+                          {item ? item.room[0] : id[0]}
                         </button>
                       </div>
                       <div className="w-full px-2">
                         <div className="text-lg font-semibold dark:text-white">
-                          {item?.room ? item?.room : id}
+                          {item ? item.room : id}
                         </div>
                       </div>
                     </div>
